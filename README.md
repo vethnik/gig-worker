@@ -2,8 +2,8 @@
 
 A modern web platform that connects **blue-collar workers** with **local employers** looking for skilled labor or short-term gigs.
 
-🔗 **Live App:** [https://gigworker.lovable.app/](https://gigworker.lovable.app/)
-🧩 **Repo:** [https://github.com/vethnik/GIG_WORKER_blue-collar-job-finder](https://github.com/vethnik/GIG_WORKER_blue-collar-job-finder)
+🔗 **Live App:** https://gigworker.netlify.app/
+🧩 **Repo:** https://github.com/vethnik/gig-worker.git
 
 ---
 
@@ -68,8 +68,8 @@ Optional Backend: Supabase / API integration
 
 ### Installation
 
-git clone [https://github.com/vethnik/GIG_WORKER_blue-collar-job-finder.git](https://github.com/vethnik/GIG_WORKER_blue-collar-job-finder.git)
-cd GIG_WORKER_blue-collar-job-finder
+git clone [https://github.com/vethnik/gig-worker.git](https://github.com/vethnik/gig-worker.git)
+cd gig-worker
 npm install
 
 ### Development
