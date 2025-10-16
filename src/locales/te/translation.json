@@ -102,5 +102,22 @@
   "job_saved": "ఉద్యోగం సేవ్ చేయబడింది!",
   "has_been_saved_to_your_favorites": "మీ ఇష్టమైనవాటిలో సేవ్ చేయబడింది।",
   "error": "లోపం",
-  "failed_to_save_job_please_try_again": "ఉద్యోగాన్ని సేవ్ చేయడంలో విఫలమైంది। దయచేసి మళ్లీ ప్రయత్నించండి।"
+  "failed_to_save_job_please_try_again": "ఉద్యోగాన్ని సేవ్ చేయడంలో విఫలమైంది। దయచేసి మళ్లీ ప్రయత్నించండి।",
+  "view_more": "మరిన్ని చూడండి",
+  "view_details": "వివరాలు చూడండి",
+  "company": "కంపెనీ",
+  "close": "మూసివేయండి",
+  "contact_worker": "కార్మికుడిని సంప్రదించండి",
+  "skills_expertise": "నైపుణ్యాలు మరియు నిపుణత",
+  "certifications": "ధృవీకరణలు",
+  "previous_work_experience": "మునుపటి పని అనుభవం",
+  "languages": "భాషలు",
+  "contact_information": "సంప్రదింపు సమాచారం",
+  "job_description": "ఉద్యోగ వివరణ",
+  "skills_required": "అవసరమైన నైపుణ్యాలు",
+  "requirements": "అవసరాలు",
+  "benefits": "ప్రయోజనాలు",
+  "hourly_rate": "గంట రేటు",
+  "availability": "అందుబాటు",
+  "experience": "అనుభవం"
 }

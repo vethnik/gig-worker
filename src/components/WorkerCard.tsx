@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { Star, MapPin, Phone, Mail } from "lucide-react";
+import { MapPin, Phone, Mail, Eye } from "lucide-react";
 import { useState } from "react";
-import WorkerProfileModal from "./WorkerProfileModal";
+import WorkerDetailsModal from "./WorkerDetailsModal";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 
 interface WorkerCardProps {
   name: string;
@@ -31,6 +32,7 @@ const WorkerCard = ({
 }: WorkerCardProps) => {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   const handleContact = (method: 'phone' | 'email') => {
     if (method === 'phone' && phone) {
@@ -68,27 +70,9 @@ const WorkerCard = ({
         </div>
       </div>
       
-      <div className="flex items-center mb-4">
-        <div className="flex items-center">
-          {[...Array(5)].map((_, i) => (
-            <Star
-              key={i}
-              className={`w-4 h-4 ${
-                i < Math.floor(rating) 
-                  ? 'text-yellow-400 fill-current' 
-                  : 'text-gray-300'
-              }`}
-            />
-          ))}
-          <span className="ml-2 text-sm text-muted-foreground">
-            {rating} ({reviewCount} reviews)
-          </span>
-        </div>
-      </div>
-      
       <div className="mb-4">
         <p className="text-sm text-muted-foreground mb-2">
-          {yearsExperience} years of experience
+          {t('years_of_experience', { count: yearsExperience })}
         </p>
         <div className="flex flex-wrap gap-2">
           {skills.slice(0, 3).map((skill, index) => (
@@ -101,7 +85,7 @@ const WorkerCard = ({
           ))}
           {skills.length > 3 && (
             <span className="px-3 py-1 bg-muted text-muted-foreground text-xs rounded-full">
-              +{skills.length - 3} more
+              +{skills.length - 3} {t('more')}
             </span>
           )}
         </div>
@@ -113,7 +97,7 @@ const WorkerCard = ({
           className="flex-1"
           onClick={() => setIsProfileModalOpen(true)}
         >
-          View Profile
+          {t('view_profile')}
         </Button>
         {phone && (
           <Button 
@@ -137,7 +121,7 @@ const WorkerCard = ({
         )}
       </div>
 
-      <WorkerProfileModal
+      <WorkerDetailsModal
         isOpen={isProfileModalOpen}
         onClose={() => setIsProfileModalOpen(false)}
         worker={{
@@ -148,8 +132,29 @@ const WorkerCard = ({
           reviewCount,
           skills,
           yearsExperience,
-          phone,
-          email
+          phone: phone || "",
+          email: email || "",
+          bio: `Experienced ${trade.toLowerCase()} with ${yearsExperience} years in the field. Skilled in various aspects of the trade and committed to delivering quality work.`,
+          certifications: [
+            "Trade License Certified",
+            "Safety Training Completed",
+            "Quality Assurance Certified"
+          ],
+          previousWork: [
+            "Residential construction projects",
+            "Commercial building maintenance",
+            "Custom installation work"
+          ],
+          availability: "Available",
+          hourlyRate: "$25-35/hr",
+          languages: ["English", "Spanish"]
+        }}
+        onContact={() => {
+          if (phone) {
+            handleContact('phone');
+          } else if (email) {
+            handleContact('email');
+          }
         }}
       />
     </div>

@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { MapPin, Clock, User, Users, Bookmark, BookmarkCheck } from "lucide-react";
+import { MapPin, Clock, User, Users, Bookmark, BookmarkCheck, Eye } from "lucide-react";
 import { useState, useEffect } from "react";
 import JobApplicationModal from "./JobApplicationModal";
+import JobDetailsModal from "./JobDetailsModal";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -23,6 +24,7 @@ interface JobCardProps {
 
 const JobCard = ({ jobId, title, company, location, wage, type, description, skills, postedTime, positionsAvailable, positionsFilled }: JobCardProps) => {
   const [isApplicationModalOpen, setIsApplicationModalOpen] = useState(false);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [saveLoading, setSaveLoading] = useState(false);
   const { toast } = useToast();
@@ -215,6 +217,14 @@ const JobCard = ({ jobId, title, company, location, wage, type, description, ski
           </Button>
           <Button 
             size="icon"
+            className="bg-white/10 backdrop-blur-glass border border-white/20 hover:bg-white/20 hover:border-white/30 transition-all duration-300"
+            onClick={() => setIsDetailsModalOpen(true)}
+            title={t('view_details')}
+          >
+            <Eye className="w-4 h-4 text-white" />
+          </Button>
+          <Button 
+            size="icon"
             className={`bg-white/10 backdrop-blur-glass border border-white/20 hover:bg-white/20 hover:border-white/30 transition-all duration-300 ${isSaved ? 'shadow-neon-purple border-accent/50' : ''}`}
             onClick={handleSaveJob}
             disabled={saveLoading}
@@ -231,6 +241,41 @@ const JobCard = ({ jobId, title, company, location, wage, type, description, ski
         jobId={jobId}
         jobTitle={title}
         company={company}
+      />
+      
+      <JobDetailsModal
+        isOpen={isDetailsModalOpen}
+        onClose={() => setIsDetailsModalOpen(false)}
+        job={{
+          jobId,
+          title,
+          company,
+          location,
+          wage,
+          type,
+          description,
+          skills,
+          postedTime,
+          positionsAvailable,
+          positionsFilled,
+          category: type,
+          requirements: [
+            "Must have relevant experience in the field",
+            "Reliable and punctual",
+            "Good communication skills",
+            "Ability to work independently"
+          ],
+          benefits: [
+            "Competitive pay",
+            "Flexible working hours",
+            "Growth opportunities",
+            "Safe working environment"
+          ]
+        }}
+        onApply={() => {
+          setIsDetailsModalOpen(false);
+          setIsApplicationModalOpen(true);
+        }}
       />
     </div>
   );

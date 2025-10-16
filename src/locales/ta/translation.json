@@ -121,5 +121,22 @@
   "job_saved": "வேலை சேமிக்கப்பட்டது!",
   "has_been_saved_to_your_favorites": "உங்கள் விருப்பங்களில் சேமிக்கப்பட்டது।",
   "error": "பிழை",
-  "failed_to_save_job_please_try_again": "வேலையைச் சேமிக்க முடியவில்லை। தயவுசெய்து மீண்டும் முயற்சிக்கவும்।"
+  "failed_to_save_job_please_try_again": "வேலையைச் சேமிக்க முடியவில்லை। தயவுசெய்து மீண்டும் முயற்சிக்கவும்।",
+  "view_more": "மேலும் பார்க்கவும்",
+  "view_details": "விவரங்களைப் பார்க்கவும்",
+  "company": "நிறுவனம்",
+  "close": "மூடு",
+  "contact_worker": "தொழிலாளரைத் தொடர்பு கொள்ளவும்",
+  "skills_expertise": "திறன்கள் மற்றும் நிபுணத்துவம்",
+  "certifications": "சான்றிதழ்கள்",
+  "previous_work_experience": "முந்தைய பணி அனுபவம்",
+  "languages": "மொழிகள்",
+  "contact_information": "தொடர்பு தகவல்",
+  "job_description": "வேலை விவரம்",
+  "skills_required": "தேவையான திறன்கள்",
+  "requirements": "தேவைகள்",
+  "benefits": "நன்மைகள்",
+  "hourly_rate": "மணிநேர விகிதம்",
+  "availability": "கிடைக்கும் தன்மை",
+  "experience": "அனுபவம்"
 }

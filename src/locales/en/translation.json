@@ -121,5 +121,22 @@
   "job_saved": "Job Saved!",
   "has_been_saved_to_your_favorites": "has been saved to your favorites.",
   "error": "Error",
-  "failed_to_save_job_please_try_again": "Failed to save job. Please try again."
+  "failed_to_save_job_please_try_again": "Failed to save job. Please try again.",
+  "view_more": "View More",
+  "view_details": "View Details",
+  "company": "Company",
+  "close": "Close",
+  "contact_worker": "Contact Worker",
+  "skills_expertise": "Skills & Expertise",
+  "certifications": "Certifications",
+  "previous_work_experience": "Previous Work Experience",
+  "languages": "Languages",
+  "contact_information": "Contact Information",
+  "job_description": "Job Description",
+  "skills_required": "Skills Required",
+  "requirements": "Requirements",
+  "benefits": "Benefits",
+  "hourly_rate": "Hourly Rate",
+  "availability": "Availability",
+  "experience": "Experience"
 }

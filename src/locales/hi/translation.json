@@ -121,5 +121,22 @@
   "job_saved": "नौकरी सहेजी गई!",
   "has_been_saved_to_your_favorites": "आपकी पसंदीदा में सहेजी गई है।",
   "error": "त्रुटि",
-  "failed_to_save_job_please_try_again": "नौकरी सहेजने में विफल। कृपया पुनः प्रयास करें।"
+  "failed_to_save_job_please_try_again": "नौकरी सहेजने में विफल। कृपया पुनः प्रयास करें।",
+  "view_more": "और देखें",
+  "view_details": "विवरण देखें",
+  "company": "कंपनी",
+  "close": "बंद करें",
+  "contact_worker": "कामगार से संपर्क करें",
+  "skills_expertise": "कौशल और विशेषज्ञता",
+  "certifications": "प्रमाणपत्र",
+  "previous_work_experience": "पिछला कार्य अनुभव",
+  "languages": "भाषाएं",
+  "contact_information": "संपर्क जानकारी",
+  "job_description": "नौकरी का विवरण",
+  "skills_required": "आवश्यक कौशल",
+  "requirements": "आवश्यकताएं",
+  "benefits": "लाभ",
+  "hourly_rate": "प्रति घंटा दर",
+  "availability": "उपलब्धता",
+  "experience": "अनुभव"
 }
