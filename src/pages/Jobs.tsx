@@ -37,10 +37,14 @@ const Jobs = () => {
   useEffect(() => {
     fetchJobs();
     // Check if we should open the post job modal from URL params
-    if (searchParams.get('action') === 'post-job') {
-      setIsPostJobModalOpen(true);
-      // Clean up the URL parameter
-      setSearchParams({});
+    try {
+      if (searchParams.get('action') === 'post-job') {
+        setIsPostJobModalOpen(true);
+        // Clean up the URL parameter
+        setSearchParams({});
+      }
+    } catch (error) {
+      console.error('Error handling URL parameters:', error);
     }
   }, [searchParams, setSearchParams]);
 

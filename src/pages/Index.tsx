@@ -4,9 +4,21 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle, Users, Briefcase, Shield, Clock } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const handlePostJobClick = () => {
+    try {
+      navigate('/jobs?action=post-job');
+    } catch (error) {
+      console.error('Navigation error:', error);
+      // Fallback to window.location
+      window.location.href = '/jobs?action=post-job';
+    }
+  };
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -126,10 +138,13 @@ const Index = () => {
                 <ArrowRight className="ml-2" />
               </a>
             </Button>
-            <Button variant="professional" size="lg" className="text-lg px-8 py-4" asChild>
-              <a href="/jobs?action=post-job">
-                {t('post_job')}
-              </a>
+            <Button 
+              variant="professional" 
+              size="lg" 
+              className="text-lg px-8 py-4"
+              onClick={handlePostJobClick}
+            >
+              {t('post_job')}
             </Button>
           </div>
         </div>

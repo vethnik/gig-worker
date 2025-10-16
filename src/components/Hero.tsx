@@ -2,15 +2,27 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Users, Briefcase, MapPin, CreditCard, Zap } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const currentLang = i18n.language;
   
   // Update document lang attribute for proper CSS targeting
   React.useEffect(() => {
     document.documentElement.lang = currentLang;
   }, [currentLang]);
+
+  const handlePostJobClick = () => {
+    try {
+      navigate('/jobs?action=post-job');
+    } catch (error) {
+      console.error('Navigation error:', error);
+      // Fallback to window.location
+      window.location.href = '/jobs?action=post-job';
+    }
+  };
   
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-hero">
@@ -56,11 +68,9 @@ const Hero = () => {
               <Button 
                 size="lg" 
                 className="text-lg px-8 py-6 bg-white/10 backdrop-blur-glass border-2 border-white/20 text-white hover:bg-white/20 hover:border-white/30 transition-all duration-300" 
-                asChild
+                onClick={handlePostJobClick}
               >
-                <a href="/jobs?action=post-job">
-                  {t('post_job')}
-                </a>
+                {t('post_job')}
               </Button>
             </div>
           </div>
