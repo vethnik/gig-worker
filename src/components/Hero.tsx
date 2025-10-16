@@ -1,7 +1,17 @@
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Users, Briefcase, MapPin, CreditCard, Zap } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const Hero = () => {
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n.language;
+  
+  // Update document lang attribute for proper CSS targeting
+  React.useEffect(() => {
+    document.documentElement.lang = currentLang;
+  }, [currentLang]);
+  
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-hero">
       {/* Animated Background Grid */}
@@ -21,16 +31,15 @@ const Hero = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div className="text-left">
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 animate-fade-in" style={{textShadow: '0 0 40px rgba(66, 153, 255, 0.5)'}}>
-              Connect Skilled Workers
-              <span className="block text-transparent bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text mt-2">
-                With Local Jobs
+            <h1 className={`hero-title font-bold text-white mb-6 animate-fade-in lang-${currentLang}`} style={{textShadow: '0 0 40px rgba(66, 153, 255, 0.5)'}}>
+              {t('hero_title_1')}
+              <span className={`hero-subtitle block text-transparent bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text mt-2 lang-${currentLang}`}>
+                {t('hero_title_2')}
               </span>
             </h1>
             
-            <p className="text-xl sm:text-2xl text-white/80 mb-8 max-w-2xl animate-fade-in" style={{animationDelay: '0.2s'}}>
-              The premier platform for carpenters, electricians, masons, and skilled trades 
-              to find work and for employers to find qualified professionals.
+            <p className={`hero-description text-white/80 mb-8 max-w-2xl animate-fade-in lang-${currentLang}`} style={{animationDelay: '0.2s'}}>
+              {t('hero_description')}
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 animate-fade-in" style={{animationDelay: '0.4s'}}>
@@ -40,7 +49,7 @@ const Hero = () => {
                 asChild
               >
                 <a href="/jobs">
-                  Find Jobs Near You
+                  {t('find_jobs_near_you')}
                   <ArrowRight className="ml-2" />
                 </a>
               </Button>
@@ -49,8 +58,8 @@ const Hero = () => {
                 className="text-lg px-8 py-6 bg-white/10 backdrop-blur-glass border-2 border-white/20 text-white hover:bg-white/20 hover:border-white/30 transition-all duration-300" 
                 asChild
               >
-                <a href="/workers">
-                  Post a Job
+                <a href="/jobs?action=post-job">
+                  {t('post_job')}
                 </a>
               </Button>
             </div>
@@ -141,7 +150,7 @@ const Hero = () => {
               <Users className="w-8 h-8 text-primary" />
             </div>
             <h3 className="text-4xl font-bold text-white mb-2">10K+</h3>
-            <p className="text-white/70">Skilled Workers</p>
+            <p className="text-white/70">{t('skilled_workers')}</p>
           </div>
           
           <div 
@@ -152,7 +161,7 @@ const Hero = () => {
               <Briefcase className="w-8 h-8 text-accent" />
             </div>
             <h3 className="text-4xl font-bold text-white mb-2">5K+</h3>
-            <p className="text-white/70">Active Jobs</p>
+            <p className="text-white/70">{t('active_jobs')}</p>
           </div>
           
           <div 
@@ -163,7 +172,7 @@ const Hero = () => {
               <MapPin className="w-8 h-8 text-secondary" />
             </div>
             <h3 className="text-4xl font-bold text-white mb-2">50+</h3>
-            <p className="text-white/70">Cities Covered</p>
+            <p className="text-white/70">{t('cities_covered')}</p>
           </div>
         </div>
       </div>

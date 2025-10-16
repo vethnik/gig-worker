@@ -5,23 +5,25 @@ import { Input } from "@/components/ui/input";
 import WorkerCard from "@/components/WorkerCard";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useTranslation } from "react-i18next";
 
 const Workers = () => {
+  const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState("");
   const [locationFilter, setLocationFilter] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All Workers");
+  const [selectedCategory, setSelectedCategory] = useState(t('all_workers'));
   const [displayedWorkers, setDisplayedWorkers] = useState(6); // Initially show 6 workers
 
   // Define filter categories
   const categories = [
-    "All Workers",
-    "General Laborers",
-    "Carpenters", 
-    "Electricians",
-    "Masons",
-    "HVAC",
-    "Plumbers",
-    "Tile Installers"
+    t('all_workers'),
+    t('general_laborers'),
+    t('carpenters'), 
+    t('electricians'),
+    t('masons'),
+    t('hvac'),
+    t('plumbers'),
+    t('tile_installers')
   ];
 
   // Mock worker data
@@ -295,15 +297,15 @@ const Workers = () => {
   // Filter workers based on selected category and search term
   const filteredWorkers = workers.filter(worker => {
     const tradeLower = worker.trade.toLowerCase();
-    const matchesCategory = selectedCategory === "All Workers" || 
+    const matchesCategory = selectedCategory === t('all_workers') || 
       tradeLower.includes(selectedCategory.toLowerCase().slice(0, -1)) || // Remove 's' from plural
-      (selectedCategory === "Carpenters" && tradeLower.includes("carpenter")) ||
-      (selectedCategory === "Electricians" && tradeLower.includes("electrician")) ||
-      (selectedCategory === "Masons" && tradeLower.includes("mason")) ||
-      (selectedCategory === "HVAC" && tradeLower.includes("hvac")) ||
-      (selectedCategory === "Plumbers" && tradeLower.includes("plumber")) ||
-      (selectedCategory === "Tile Installers" && tradeLower.includes("tile")) ||
-      (selectedCategory === "General Laborers" && (
+      (selectedCategory === t('carpenters') && tradeLower.includes("carpenter")) ||
+      (selectedCategory === t('electricians') && tradeLower.includes("electrician")) ||
+      (selectedCategory === t('masons') && tradeLower.includes("mason")) ||
+      (selectedCategory === t('hvac') && tradeLower.includes("hvac")) ||
+      (selectedCategory === t('plumbers') && tradeLower.includes("plumber")) ||
+      (selectedCategory === t('tile_installers') && tradeLower.includes("tile")) ||
+      (selectedCategory === t('general_laborers') && (
         tradeLower.includes("laborer") || 
         tradeLower.includes("warehouse") || 
         tradeLower.includes("landscaping") ||
@@ -343,8 +345,8 @@ const Workers = () => {
       {/* Header */}
       <div className="pt-24 pb-12 bg-gradient-subtle">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl font-bold text-foreground mb-4">Find Skilled Workers</h1>
-          <p className="text-xl text-muted-foreground">Connect with qualified professionals in your area</p>
+          <h1 className="text-4xl font-bold text-foreground mb-4">{t('find_skilled_workers')}</h1>
+          <p className="text-xl text-muted-foreground">{t('connect_with_qualified_professionals')}</p>
         </div>
       </div>
 
@@ -355,7 +357,7 @@ const Workers = () => {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
               <Input
-                placeholder="Search workers (e.g., carpenter, electrician)"
+                placeholder={t('search_workers_placeholder')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10"
@@ -364,7 +366,7 @@ const Workers = () => {
             <div className="relative md:w-64">
               <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
               <Input
-                placeholder="Location"
+                placeholder={t('location')}
                 value={locationFilter}
                 onChange={(e) => setLocationFilter(e.target.value)}
                 className="pl-10"
@@ -372,7 +374,7 @@ const Workers = () => {
             </div>
             <Button variant="default" className="md:w-auto">
               <Filter className="w-4 h-4 mr-2" />
-              Filters
+              {t('filters')}
             </Button>
           </div>
 
@@ -395,18 +397,18 @@ const Workers = () => {
         {/* Results Info */}
         <div className="flex justify-between items-center mb-6">
           <p className="text-muted-foreground">
-            {filteredWorkers.length} skilled workers found
-            {selectedCategory !== "All Workers" && (
+            {t('skilled_workers_found', { count: filteredWorkers.length })}
+            {selectedCategory !== t('all_workers') && (
               <span className="ml-2 text-primary">
-                • Filtered by {selectedCategory}
+                {t('filtered_by', { category: selectedCategory })}
               </span>
             )}
           </p>
           <select className="bg-background border border-border rounded-md px-3 py-2 text-sm">
-            <option>Highest Rated</option>
+            <option>{t('highest_rated')}</option>
             <option>Most Experience</option>
             <option>Most Reviews</option>
-            <option>Closest Distance</option>
+            <option>{t('closest_distance')}</option>
           </select>
         </div>
 
@@ -424,13 +426,13 @@ const Workers = () => {
               <Button 
                 variant="outline" 
                 onClick={() => {
-                  setSelectedCategory("All Workers");
+                  setSelectedCategory(t('all_workers'));
                   setSearchTerm("");
                   setLocationFilter("");
                   setDisplayedWorkers(6);
                 }}
               >
-                Clear Filters
+                {t('clear_filters')}
               </Button>
             </div>
           )}

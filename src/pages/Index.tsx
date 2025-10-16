@@ -3,8 +3,10 @@ import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle, Users, Briefcase, Shield, Clock } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const Index = () => {
+  const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -15,10 +17,10 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
-              Why Choose Gig Worker?
+              {t('why_choose_gig_worker')}
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              The most trusted platform for connecting skilled workers with quality employers
+              {t('most_trusted_platform')}
             </p>
           </div>
           
@@ -47,9 +49,9 @@ const Index = () => {
               <div className="w-14 h-14 bg-primary/20 backdrop-blur-glass rounded-2xl flex items-center justify-center mb-6 border border-primary/30 shadow-neon-blue">
                 <Users className="w-7 h-7 text-primary" />
               </div>
-              <h3 className="text-2xl font-semibold text-white mb-4">Verified Professionals</h3>
+              <h3 className="text-2xl font-semibold text-white mb-4">{t('verified_professionals')}</h3>
               <p className="text-white/70 leading-relaxed">
-                All workers are background-checked and skill-verified for your peace of mind
+                {t('verified_professionals_desc')}
               </p>
             </div>
             
@@ -73,9 +75,9 @@ const Index = () => {
               <div className="w-14 h-14 bg-accent/20 backdrop-blur-glass rounded-2xl flex items-center justify-center mb-6 border border-accent/30 shadow-neon-purple">
                 <Shield className="w-7 h-7 text-accent" />
               </div>
-              <h3 className="text-2xl font-semibold text-white mb-4">Secure Payments</h3>
+              <h3 className="text-2xl font-semibold text-white mb-4">{t('secure_payments')}</h3>
               <p className="text-white/70 leading-relaxed">
-                Protected payment system ensures safe transactions for both parties
+                {t('secure_payments_desc')}
               </p>
             </div>
             
@@ -98,9 +100,9 @@ const Index = () => {
               <div className="w-14 h-14 bg-secondary/20 backdrop-blur-glass rounded-2xl flex items-center justify-center mb-6 border border-secondary/30 shadow-neon-pink">
                 <Clock className="w-7 h-7 text-secondary" />
               </div>
-              <h3 className="text-2xl font-semibold text-white mb-4">Quick Matching</h3>
+              <h3 className="text-2xl font-semibold text-white mb-4">{t('quick_matching')}</h3>
               <p className="text-white/70 leading-relaxed">
-                Advanced algorithms match you with the perfect workers or jobs instantly
+                {t('quick_matching_desc')}
               </p>
             </div>
           </div>
@@ -111,22 +113,22 @@ const Index = () => {
       <section className="py-24 bg-gradient-subtle">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-6">
-            Ready to Get Started?
+            {t('ready_to_get_started')}
           </h2>
           <p className="text-xl text-muted-foreground mb-8">
-            Join thousands of professionals who trust Gig Worker for their career and hiring needs
+            {t('join_thousands_of_professionals')}
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button variant="hero" size="lg" className="text-lg px-8 py-4" asChild>
               <a href="/jobs">
-                Find Jobs
+                {t('find_jobs')}
                 <ArrowRight className="ml-2" />
               </a>
             </Button>
             <Button variant="professional" size="lg" className="text-lg px-8 py-4" asChild>
-              <a href="/workers">
-                Hire Workers
+              <a href="/jobs?action=post-job">
+                {t('post_job')}
               </a>
             </Button>
           </div>

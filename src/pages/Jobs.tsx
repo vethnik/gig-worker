@@ -9,30 +9,40 @@ import PostJobModal from "@/components/PostJobModal";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
+import { useSearchParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Jobs = () => {
   const { user } = useAuth();
   const { toast } = useToast();
+  const { t } = useTranslation();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState("");
   const [locationFilter, setLocationFilter] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All Jobs");
+  const [selectedCategory, setSelectedCategory] = useState(t('all_jobs'));
   const [isPostJobModalOpen, setIsPostJobModalOpen] = useState(false);
   const [jobs, setJobs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Define filter categories
   const categories = [
-    "All Jobs",
-    "🏗️ Construction-Related Work",
-    "🚛 Loading & Unloading",
-    "🏠 Household Work",
-    "🌱 Outdoor & Agricultural Work",
-    "🏢 Small Contract Work",
+    t('all_jobs'),
+    t('construction_related_work'),
+    t('loading_unloading'),
+    t('household_work'),
+    t('outdoor_agricultural_work'),
+    t('small_contract_work'),
   ];
 
   useEffect(() => {
     fetchJobs();
-  }, []);
+    // Check if we should open the post job modal from URL params
+    if (searchParams.get('action') === 'post-job') {
+      setIsPostJobModalOpen(true);
+      // Clean up the URL parameter
+      setSearchParams({});
+    }
+  }, [searchParams, setSearchParams]);
 
   const fetchJobs = async () => {
     try {
@@ -62,7 +72,7 @@ const Jobs = () => {
   // Filter jobs based on selected category and search term
   const filteredJobs = jobs.filter((job) => {
     const matchesCategory =
-      selectedCategory === "All Jobs" ||
+      selectedCategory === t('all_jobs') ||
       job.category === selectedCategory ||
       job.title.toLowerCase().includes(selectedCategory.toLowerCase());
 
@@ -105,10 +115,10 @@ const Jobs = () => {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <h1 className="text-4xl font-bold text-foreground mb-4">
-                Find Your Next Job
+                {t('find_your_next_job')}
               </h1>
               <p className="text-xl text-muted-foreground">
-                Discover opportunities with top employers in your area
+                {t('discover_opportunities')}
               </p>
             </div>
             {user && (
@@ -118,7 +128,7 @@ const Jobs = () => {
                 className="flex items-center gap-2"
               >
                 <Plus className="w-5 h-5" />
-                Post a Job
+                {t('post_job')}
               </Button>
             )}
           </div>
@@ -132,7 +142,7 @@ const Jobs = () => {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
               <Input
-                placeholder="Search jobs (e.g., carpenter, electrician)"
+                placeholder={t('search_jobs_placeholder')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10"
@@ -141,7 +151,7 @@ const Jobs = () => {
             <div className="relative md:w-64">
               <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
               <Input
-                placeholder="Location"
+                placeholder={t('location')}
                 value={locationFilter}
                 onChange={(e) => setLocationFilter(e.target.value)}
                 className="pl-10"
@@ -149,7 +159,7 @@ const Jobs = () => {
             </div>
             <Button variant="default" className="md:w-auto">
               <Filter className="w-4 h-4 mr-2" />
-              Filters
+              {t('filters')}
             </Button>
           </div>
 
@@ -172,17 +182,17 @@ const Jobs = () => {
         {/* Results Info */}
         <div className="flex justify-between items-center mb-6">
           <p className="text-muted-foreground">
-            Showing {filteredJobs.length} jobs in your area
-            {selectedCategory !== "All Jobs" && (
+            {t('showing_jobs_in_area', { count: filteredJobs.length })}
+            {selectedCategory !== t('all_jobs') && (
               <span className="ml-2 text-primary">
-                • Filtered by {selectedCategory}
+                {t('filtered_by', { category: selectedCategory })}
               </span>
             )}
           </p>
           <select className="bg-background border border-border rounded-md px-3 py-2 text-sm">
-            <option>Most Recent</option>
-            <option>Highest Pay</option>
-            <option>Closest Distance</option>
+            <option>{t('most_recent')}</option>
+            <option>{t('highest_pay')}</option>
+            <option>{t('closest_distance')}</option>
           </select>
         </div>
 
@@ -212,17 +222,17 @@ const Jobs = () => {
           ) : (
             <div className="col-span-full text-center py-12">
               <p className="text-muted-foreground text-lg mb-4">
-                No jobs found matching your criteria
+                {t('no_jobs_found')}
               </p>
               <Button 
                 variant="outline" 
                 onClick={() => {
-                  setSelectedCategory("All Jobs");
+                  setSelectedCategory(t('all_jobs'));
                   setSearchTerm("");
                   setLocationFilter("");
                 }}
               >
-                Clear Filters
+                {t('clear_filters')}
               </Button>
             </div>
           )}
@@ -231,7 +241,7 @@ const Jobs = () => {
         {/* Load More */}
         <div className="text-center mt-12">
           <Button variant="outline" size="lg">
-            Load More Jobs
+            {t('load_more_jobs')}
           </Button>
         </div>
       </div>

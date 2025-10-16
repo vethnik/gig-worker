@@ -5,6 +5,7 @@ import JobApplicationModal from "./JobApplicationModal";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { useTranslation } from "react-i18next";
 
 interface JobCardProps {
   jobId: string;
@@ -26,6 +27,7 @@ const JobCard = ({ jobId, title, company, location, wage, type, description, ski
   const [saveLoading, setSaveLoading] = useState(false);
   const { toast } = useToast();
   const { user } = useAuth();
+  const { t } = useTranslation();
 
   const isFull = positionsFilled >= positionsAvailable;
   const positionsRemaining = positionsAvailable - positionsFilled;
@@ -55,8 +57,8 @@ const JobCard = ({ jobId, title, company, location, wage, type, description, ski
   const handleSaveJob = async () => {
     if (!user) {
       toast({
-        title: "Login Required",
-        description: "Please log in to save jobs.",
+        title: t('login_required'),
+        description: t('please_log_in_to_save_jobs'),
         variant: "destructive"
       });
       return;
@@ -76,8 +78,8 @@ const JobCard = ({ jobId, title, company, location, wage, type, description, ski
 
         setIsSaved(false);
         toast({
-          title: "Job Removed",
-          description: `${title} has been removed from your saved jobs.`,
+          title: t('job_removed'),
+          description: `${title} ${t('has_been_removed_from_your_saved_jobs')}`,
         });
       } else {
         // Save the job
@@ -92,15 +94,15 @@ const JobCard = ({ jobId, title, company, location, wage, type, description, ski
 
         setIsSaved(true);
         toast({
-          title: "Job Saved!",
-          description: `${title} has been saved to your favorites.`,
+          title: t('job_saved'),
+          description: `${title} ${t('has_been_saved_to_your_favorites')}`,
         });
       }
     } catch (error: any) {
       console.error("Error saving job:", error);
       toast({
-        title: "Error",
-        description: error.message || "Failed to save job. Please try again.",
+        title: t('error'),
+        description: error.message || t('failed_to_save_job_please_try_again'),
         variant: "destructive"
       });
     } finally {
@@ -122,7 +124,7 @@ const JobCard = ({ jobId, title, company, location, wage, type, description, ski
               <h3 className="text-xl font-semibold text-white">{title}</h3>
               {!isFull && (
                 <span className="px-2 py-1 text-xs font-medium bg-primary/20 text-primary border border-primary/30 rounded-full">
-                  Active
+                  {t('active')}
                 </span>
               )}
             </div>
@@ -133,7 +135,13 @@ const JobCard = ({ jobId, title, company, location, wage, type, description, ski
           </div>
           <div className="text-right">
             <div className="text-2xl font-bold text-transparent bg-gradient-to-r from-primary to-accent bg-clip-text">{wage}</div>
-            <div className="text-xs text-white/60 mt-1 px-2 py-1 bg-white/5 rounded-full">{type}</div>
+            <div className="text-xs text-white/60 mt-1 px-2 py-1 bg-white/5 rounded-full">
+              {type === 'Daily Wage' ? t('daily_wage') : 
+               type === 'Contract' ? t('contract') : 
+               type === 'Seasonal' ? t('seasonal') : 
+               type === 'Part-time' ? t('part_time') : 
+               type === 'Full-time' ? t('full_time') : type}
+            </div>
           </div>
         </div>
         
@@ -161,15 +169,15 @@ const JobCard = ({ jobId, title, company, location, wage, type, description, ski
                 <Users className="w-5 h-5 text-primary" />
               </div>
               <div>
-                <div className="text-xs text-white/60">Positions</div>
+                <div className="text-xs text-white/60">{t('positions')}</div>
                 <div className={`text-sm font-semibold ${isFull ? 'text-destructive' : 'text-white'}`}>
-                  {isFull ? 'Filled' : `${positionsRemaining} available`}
+                  {isFull ? t('filled') : `${positionsRemaining} ${t('available')}`}
                 </div>
               </div>
             </div>
             {!isFull && (
               <div className="text-right">
-                <div className="text-xs text-white/60">Total</div>
+                <div className="text-xs text-white/60">{t('total')}</div>
                 <div className="text-sm font-semibold text-white">{positionsAvailable}</div>
               </div>
             )}
@@ -191,7 +199,7 @@ const JobCard = ({ jobId, title, company, location, wage, type, description, ski
           ))}
           {skills.length > 4 && (
             <span className="px-3 py-1.5 bg-white/5 text-white/60 text-xs rounded-lg">
-              +{skills.length - 4} more
+              +{skills.length - 4} {t('more')}
             </span>
           )}
         </div>
@@ -203,7 +211,7 @@ const JobCard = ({ jobId, title, company, location, wage, type, description, ski
             onClick={() => setIsApplicationModalOpen(true)}
             disabled={isFull}
           >
-            {isFull ? 'Positions Filled' : 'Apply Now'}
+            {isFull ? 'Positions Filled' : t('apply_now')}
           </Button>
           <Button 
             size="icon"
