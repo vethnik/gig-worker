@@ -93,7 +93,7 @@ npm run preview
 <img width="1342" height="710" alt="image" src="https://github.com/user-attachments/assets/75af2863-b64c-493a-82fc-ce9bfa5867cd" />
 <img width="673" height="815" alt="image" src="https://github.com/user-attachments/assets/aad4f189-4a38-4230-a43d-0ff72a683f6e" />
 <img width="1247" height="742" alt="image" src="https://github.com/user-attachments/assets/f406b520-8195-4498-a288-2f1204ff92d4" />
-<img width="300" height="300" alt="gig worker" src="https://github.com/user-attachments/assets/6b446acb-fcdf-4a67-b184-0248c7c22981" />
+<img width="300" height="300" alt="frame" src="https://github.com/user-attachments/assets/73f1bf00-df33-462b-b5cb-543b93895cc5" />
 
 
 
