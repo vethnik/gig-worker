@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Users, Briefcase, MapPin, CreditCard, Zap } from "lucide-react";
+import { ArrowRight, Users, Briefcase, MapPin, Star } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
@@ -76,78 +76,76 @@ const Hero = () => {
             </div>
           </div>
           
-          {/* Right Side - 3D Card Mockups */}
+          {/* Right Side - Interactive Network Visualization */}
           <div className="relative h-[500px] hidden lg:block animate-fade-in" style={{animationDelay: '0.6s'}}>
-            {/* Card 1 - Purple Blue */}
-            <div 
-              className="absolute top-0 left-0 w-80 h-48 rounded-3xl p-6 shadow-neon-purple transition-transform duration-500 hover:scale-105"
-              style={{
-                background: 'var(--gradient-card-1)',
-                transform: 'perspective(1000px) rotateY(-15deg) rotateX(5deg)',
-              }}
-            >
-              <div className="flex justify-between items-start mb-8">
-                <div className="text-white/80 text-sm font-medium">Worker Card</div>
-                <CreditCard className="w-8 h-8 text-white/60" />
+            {/* Background Grid Pattern */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="grid grid-cols-8 grid-rows-8 h-full w-full gap-4">
+                {Array.from({length: 64}).map((_, i) => (
+                  <div key={i} className="bg-primary/20 rounded-sm animate-pulse" style={{animationDelay: `${i * 0.1}s`}}></div>
+                ))}
               </div>
-              <div className="text-white/60 text-xs mb-2">Card Number</div>
-              <div className="text-white text-lg font-mono tracking-wider">•••• •••• •••• 4829</div>
-              <div className="flex justify-between mt-4">
-                <div>
-                  <div className="text-white/60 text-xs">Valid Thru</div>
-                  <div className="text-white text-sm">12/25</div>
-                </div>
-                <div className="text-white text-xl font-bold">VISA</div>
-              </div>
+            </div>
+
+            {/* Network Nodes */}
+            <div className="absolute top-16 left-16 w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center shadow-lg animate-bounce-gentle">
+              <Users className="w-8 h-8 text-primary-foreground" />
             </div>
             
-            {/* Card 2 - Pink Red */}
-            <div 
-              className="absolute top-20 right-0 w-80 h-48 rounded-3xl p-6 shadow-neon-pink transition-transform duration-500 hover:scale-105"
-              style={{
-                background: 'var(--gradient-card-2)',
-                transform: 'perspective(1000px) rotateY(10deg) rotateX(-3deg)',
-              }}
-            >
-              <div className="flex justify-between items-start mb-8">
-                <div className="text-white/80 text-sm font-medium">Premium</div>
-                <Zap className="w-8 h-8 text-white/60" />
-              </div>
-              <div className="text-white/60 text-xs mb-2">Account Balance</div>
-              <div className="text-white text-2xl font-bold">₹45,280</div>
-              <div className="flex justify-between mt-4">
-                <div>
-                  <div className="text-white/60 text-xs">Active Jobs</div>
-                  <div className="text-white text-lg font-bold">12</div>
-                </div>
-                <div className="text-white/80 text-xs">+18.5% this month</div>
-              </div>
+            <div className="absolute top-32 right-20 w-12 h-12 bg-gradient-to-br from-accent to-secondary rounded-full flex items-center justify-center shadow-lg animate-float" style={{animationDelay: '0.5s'}}>
+              <Briefcase className="w-6 h-6 text-primary-foreground" />
             </div>
             
-            {/* Card 3 - Cyan Blue */}
-            <div 
-              className="absolute bottom-0 left-12 w-80 h-48 rounded-3xl p-6 shadow-neon-blue transition-transform duration-500 hover:scale-105"
-              style={{
-                background: 'var(--gradient-card-3)',
-                transform: 'perspective(1000px) rotateY(-8deg) rotateX(8deg)',
-              }}
-            >
-              <div className="flex justify-between items-start mb-8">
-                <div className="text-white/80 text-sm font-medium">Quick Stats</div>
-                <Briefcase className="w-8 h-8 text-white/60" />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <div className="text-white/60 text-xs">Total Earnings</div>
-                  <div className="text-white text-xl font-bold">₹2.4L</div>
-                </div>
-                <div>
-                  <div className="text-white/60 text-xs">Rating</div>
-                  <div className="text-white text-xl font-bold">4.9 ★</div>
-                </div>
-              </div>
-              <div className="mt-4 text-white/80 text-xs">Verified Professional Since 2023</div>
+            <div className="absolute bottom-24 left-20 w-14 h-14 bg-gradient-to-br from-secondary to-primary rounded-full flex items-center justify-center shadow-lg animate-float-slow" style={{animationDelay: '1s'}}>
+              <MapPin className="w-7 h-7 text-primary-foreground" />
             </div>
+            
+            <div className="absolute top-1/2 right-8 w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center shadow-lg animate-bounce-gentle" style={{animationDelay: '1.5s'}}>
+              <Star className="w-5 h-5 text-primary-foreground" />
+            </div>
+
+            {/* Connection Lines */}
+            <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{zIndex: 1}}>
+              <defs>
+                <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.6" />
+                  <stop offset="100%" stopColor="hsl(var(--accent))" stopOpacity="0.2" />
+                </linearGradient>
+              </defs>
+              <path d="M 80 80 Q 200 150 320 160" stroke="url(#lineGradient)" strokeWidth="2" fill="none" className="animate-pulse" />
+              <path d="M 320 160 Q 400 200 380 280" stroke="url(#lineGradient)" strokeWidth="2" fill="none" className="animate-pulse" style={{animationDelay: '0.5s'}} />
+              <path d="M 380 280 Q 300 350 120 320" stroke="url(#lineGradient)" strokeWidth="2" fill="none" className="animate-pulse" style={{animationDelay: '1s'}} />
+              <path d="M 120 320 Q 50 250 80 80" stroke="url(#lineGradient)" strokeWidth="2" fill="none" className="animate-pulse" style={{animationDelay: '1.5s'}} />
+            </svg>
+
+            {/* Floating Data Cards */}
+            <div className="absolute top-8 right-8 bg-card/90 backdrop-blur-md border border-border rounded-xl p-3 shadow-elegant animate-float" style={{animationDelay: '0.3s'}}>
+              <div className="text-xs text-muted-foreground">Active Now</div>
+              <div className="text-lg font-bold text-card-foreground">2,847</div>
+              <div className="text-xs text-green-500">+12% ↗</div>
+            </div>
+
+            <div className="absolute bottom-8 right-16 bg-card/90 backdrop-blur-md border border-border rounded-xl p-3 shadow-elegant animate-float-slow" style={{animationDelay: '0.8s'}}>
+              <div className="text-xs text-muted-foreground">Jobs Posted</div>
+              <div className="text-lg font-bold text-card-foreground">1,234</div>
+              <div className="text-xs text-blue-500">Today</div>
+            </div>
+
+            <div className="absolute top-1/3 left-8 bg-card/90 backdrop-blur-md border border-border rounded-xl p-3 shadow-elegant animate-bounce-gentle" style={{animationDelay: '1.2s'}}>
+              <div className="text-xs text-muted-foreground">Success Rate</div>
+              <div className="text-lg font-bold text-card-foreground">94.2%</div>
+              <div className="text-xs text-purple-500">Excellent</div>
+            </div>
+
+            {/* Animated Orbs */}
+            <div className="absolute top-1/4 left-1/3 w-6 h-6 bg-primary/30 rounded-full animate-ping" style={{animationDelay: '0.2s'}}></div>
+            <div className="absolute top-3/4 right-1/4 w-4 h-4 bg-accent/40 rounded-full animate-ping" style={{animationDelay: '0.7s'}}></div>
+            <div className="absolute bottom-1/3 left-1/2 w-5 h-5 bg-secondary/35 rounded-full animate-ping" style={{animationDelay: '1.1s'}}></div>
+            
+            {/* Floating Numbers */}
+            <div className="absolute top-12 left-1/2 text-primary/60 font-mono text-sm animate-float" style={{animationDelay: '0.4s'}}>10K+</div>
+            <div className="absolute bottom-16 left-1/3 text-accent/60 font-mono text-sm animate-float-slow" style={{animationDelay: '0.9s'}}>5K+</div>
+            <div className="absolute top-2/3 right-1/5 text-secondary/60 font-mono text-sm animate-bounce-gentle" style={{animationDelay: '1.3s'}}>50+</div>
           </div>
         </div>
         

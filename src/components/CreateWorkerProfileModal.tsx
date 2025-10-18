@@ -174,6 +174,16 @@ const CreateWorkerProfileModal = ({ open, onOpenChange, onProfileCreated }: Crea
           createdAt: new Date().toISOString(),
           isUserCreated: true,
         };
+        
+        // Save to localStorage immediately for persistence across sessions
+        try {
+          const existingProfiles = localStorage.getItem('allWorkerProfiles');
+          const profiles = existingProfiles ? JSON.parse(existingProfiles) : [];
+          const updatedProfiles = [newWorkerProfile, ...profiles];
+          localStorage.setItem('allWorkerProfiles', JSON.stringify(updatedProfiles));
+        } catch (storageError) {
+          console.error('Error saving to localStorage:', storageError);
+        }
       }
 
       toast({

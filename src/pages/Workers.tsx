@@ -309,6 +309,24 @@ const Workers = () => {
 
   // Load worker profiles from database on component mount
   useEffect(() => {
+    // Migrate old localStorage data to new key (one-time migration)
+    const migrateOldProfiles = () => {
+      const oldProfiles = localStorage.getItem('userCreatedWorkerProfiles');
+      const newProfiles = localStorage.getItem('allWorkerProfiles');
+      
+      if (oldProfiles && !newProfiles) {
+        try {
+          localStorage.setItem('allWorkerProfiles', oldProfiles);
+          localStorage.removeItem('userCreatedWorkerProfiles');
+          console.log('Migrated worker profiles to new storage key');
+        } catch (error) {
+          console.error('Error migrating profiles:', error);
+        }
+      }
+    };
+    
+    migrateOldProfiles();
+    
     const loadWorkerProfiles = async () => {
       try {
         // Try to load from database first
@@ -342,7 +360,7 @@ const Workers = () => {
           setUserCreatedProfiles(transformedProfiles);
         } else {
           // Fallback to localStorage if database table doesn't exist yet
-          const savedProfiles = localStorage.getItem('userCreatedWorkerProfiles');
+          const savedProfiles = localStorage.getItem('allWorkerProfiles');
           if (savedProfiles) {
             try {
               const profiles = JSON.parse(savedProfiles);
@@ -355,7 +373,7 @@ const Workers = () => {
       } catch (error) {
         console.error('Error loading worker profiles:', error);
         // Fallback to localStorage
-        const savedProfiles = localStorage.getItem('userCreatedWorkerProfiles');
+        const savedProfiles = localStorage.getItem('allWorkerProfiles');
         if (savedProfiles) {
           try {
             const profiles = JSON.parse(savedProfiles);
@@ -479,7 +497,7 @@ const Workers = () => {
         
         // Save to localStorage as backup
         try {
-          localStorage.setItem('userCreatedWorkerProfiles', JSON.stringify(updatedProfiles));
+          localStorage.setItem('allWorkerProfiles', JSON.stringify(updatedProfiles));
         } catch (error) {
           console.error('Error saving profile to localStorage:', error);
         }
@@ -489,6 +507,13 @@ const Workers = () => {
       // Fallback to adding to current state
       const updatedProfiles = [newWorkerProfile, ...userCreatedProfiles];
       setUserCreatedProfiles(updatedProfiles);
+      
+      // Save to localStorage as backup
+      try {
+        localStorage.setItem('allWorkerProfiles', JSON.stringify(updatedProfiles));
+      } catch (error) {
+        console.error('Error saving profile to localStorage:', error);
+      }
     }
     
     // Show success message
