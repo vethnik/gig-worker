@@ -119,5 +119,16 @@
   "benefits": "ప్రయోజనాలు",
   "hourly_rate": "గంట రేటు",
   "availability": "అందుబాటు",
-  "experience": "అనుభవం"
+  "experience": "అనుభవం",
+  "job_location": "ఉద్యోగ స్థానం",
+  "enter_address_or_location": "చిరునామా లేదా స్థానాన్ని నమోదు చేయండి...",
+  "selected_location": "ఎంచుకున్న స్థానం",
+  "coordinates": "కోఆర్డినేట్లు",
+  "how_to_use": "ఎలా ఉపయోగించాలి",
+  "type_address_and_search": "చిరునామాను టైప్ చేసి వెతకండి",
+  "click_map_to_set_location": "స్థానాన్ని సెట్ చేయడానికి మ్యాప్‌లో ఎక్కడైనా క్లిక్ చేయండి",
+  "drag_marker_to_adjust": "స్థానాన్ని సర్దుబాటు చేయడానికి మార్కర్‌ను లాగండి",
+  "location_not_found": "స్థానం కనుగొనబడలేదు",
+  "invalid_latitude": "చెల్లని అక్షాంశం",
+  "invalid_longitude": "చెల్లని రేఖాంశం"
 }

@@ -138,5 +138,16 @@
   "benefits": "Benefits",
   "hourly_rate": "Hourly Rate",
   "availability": "Availability",
-  "experience": "Experience"
+  "experience": "Experience",
+  "job_location": "Job Location",
+  "enter_address_or_location": "Enter address or location...",
+  "selected_location": "Selected Location",
+  "coordinates": "Coordinates",
+  "how_to_use": "How to use:",
+  "type_address_and_search": "Type an address and click search",
+  "click_map_to_set_location": "Click anywhere on the map to set location",
+  "drag_marker_to_adjust": "Drag the marker to adjust position",
+  "location_not_found": "Location not found",
+  "invalid_latitude": "Invalid latitude",
+  "invalid_longitude": "Invalid longitude"
 }

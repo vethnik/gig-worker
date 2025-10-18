@@ -138,5 +138,16 @@
   "benefits": "நன்மைகள்",
   "hourly_rate": "மணிநேர விகிதம்",
   "availability": "கிடைக்கும் தன்மை",
-  "experience": "அனுபவம்"
+  "experience": "அனுபவம்",
+  "job_location": "வேலை இடம்",
+  "enter_address_or_location": "முகவரி அல்லது இடத்தை உள்ளிடவும்...",
+  "selected_location": "தேர்ந்தெடுக்கப்பட்ட இடம்",
+  "coordinates": "ஆயத்தொலைவுகள்",
+  "how_to_use": "எப்படி பயன்படுத்துவது",
+  "type_address_and_search": "முகவரியை தட்டச்சு செய்து தேடவும்",
+  "click_map_to_set_location": "இடத்தை அமைக்க வரைபடத்தில் எங்கும் கிளிக் செய்யவும்",
+  "drag_marker_to_adjust": "நிலையை சரிசெய்ய குறிப்பானை இழுக்கவும்",
+  "location_not_found": "இடம் கிடைக்கவில்லை",
+  "invalid_latitude": "தவறான அட்சரேகை",
+  "invalid_longitude": "தவறான தீர்க்கரேகை"
 }

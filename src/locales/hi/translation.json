@@ -138,5 +138,16 @@
   "benefits": "लाभ",
   "hourly_rate": "प्रति घंटा दर",
   "availability": "उपलब्धता",
-  "experience": "अनुभव"
+  "experience": "अनुभव",
+  "job_location": "नौकरी का स्थान",
+  "enter_address_or_location": "पता या स्थान दर्ज करें...",
+  "selected_location": "चयनित स्थान",
+  "coordinates": "निर्देशांक",
+  "how_to_use": "उपयोग कैसे करें",
+  "type_address_and_search": "पता टाइप करें और खोजें",
+  "click_map_to_set_location": "स्थान सेट करने के लिए मैप पर कहीं भी क्लिक करें",
+  "drag_marker_to_adjust": "स्थिति समायोजित करने के लिए मार्कर को खींचें",
+  "location_not_found": "स्थान नहीं मिला",
+  "invalid_latitude": "अमान्य अक्षांश",
+  "invalid_longitude": "अमान्य देशांतर"
 }

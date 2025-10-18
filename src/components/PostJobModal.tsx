@@ -10,11 +10,14 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { z } from "zod";
 import { Briefcase, MapPin, DollarSign, Clock } from "lucide-react";
+import LocationPickerSimple from "./LocationPickerSimple";
 
 const jobSchema = z.object({
   title: z.string().trim().min(3, "Title must be at least 3 characters").max(100),
   company: z.string().trim().min(2, "Company name is required").max(100),
   location: z.string().trim().min(2, "Location is required").max(100),
+  latitude: z.number().min(-90).max(90, "Invalid latitude"),
+  longitude: z.number().min(-180).max(180, "Invalid longitude"),
   wage: z.string().trim().min(1, "Wage is required").max(50),
   type: z.string().min(1, "Job type is required"),
   description: z.string().trim().min(20, "Description must be at least 20 characters").max(2000),
@@ -37,12 +40,20 @@ const PostJobModal = ({ open, onOpenChange, onJobPosted }: PostJobModalProps) =>
     title: "",
     company: "",
     location: "",
+    latitude: 0,
+    longitude: 0,
     wage: "",
     type: "Full-time",
     description: "",
     category: "",
     skills: "",
     positions_available: 1,
+  });
+  
+  const [locationData, setLocationData] = useState({
+    address: "",
+    latitude: 0,
+    longitude: 0,
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -55,6 +66,18 @@ const PostJobModal = ({ open, onOpenChange, onJobPosted }: PostJobModalProps) =>
   ];
 
   const jobTypes = ["Full-time", "Part-time", "Contract", "Daily Wage"];
+
+  const handleLocationChange = (location: { address: string; latitude: number; longitude: number }) => {
+    try {
+      setLocationData(location);
+      // Clear location error when location is selected
+      if (errors.location && location.address) {
+        setErrors(prev => ({ ...prev, location: "" }));
+      }
+    } catch (error) {
+      console.error('Error updating location:', error);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,7 +92,15 @@ const PostJobModal = ({ open, onOpenChange, onJobPosted }: PostJobModalProps) =>
     }
 
     try {
-      const validated = jobSchema.parse(formData);
+      // Combine form data with location data for validation
+      const dataToValidate = {
+        ...formData,
+        location: locationData.address,
+        latitude: locationData.latitude,
+        longitude: locationData.longitude,
+      };
+      
+      const validated = jobSchema.parse(dataToValidate);
       setErrors({});
       setLoading(true);
 
@@ -82,6 +113,8 @@ const PostJobModal = ({ open, onOpenChange, onJobPosted }: PostJobModalProps) =>
         title: validated.title,
         company: validated.company,
         location: validated.location,
+        latitude: validated.latitude,
+        longitude: validated.longitude,
         wage: validated.wage,
         type: validated.type,
         description: validated.description,
@@ -101,12 +134,19 @@ const PostJobModal = ({ open, onOpenChange, onJobPosted }: PostJobModalProps) =>
         title: "",
         company: "",
         location: "",
+        latitude: 0,
+        longitude: 0,
         wage: "",
         type: "Full-time",
         description: "",
         category: "",
         skills: "",
         positions_available: 1,
+      });
+      setLocationData({
+        address: "",
+        latitude: 0,
+        longitude: 0,
       });
       onJobPosted();
       onOpenChange(false);
@@ -133,7 +173,7 @@ const PostJobModal = ({ open, onOpenChange, onJobPosted }: PostJobModalProps) =>
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold">Post a Job</DialogTitle>
         </DialogHeader>
@@ -165,34 +205,27 @@ const PostJobModal = ({ open, onOpenChange, onJobPosted }: PostJobModalProps) =>
               {errors.company && <p className="text-sm text-destructive">{errors.company}</p>}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="location" className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4" />
-                  Location *
-                </Label>
-                <Input
-                  id="location"
-                  value={formData.location}
-                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                  placeholder="e.g., Mumbai, Maharashtra"
-                />
-                {errors.location && <p className="text-sm text-destructive">{errors.location}</p>}
-              </div>
+            {/* Location Picker with Map */}
+            <div className="space-y-2">
+              <LocationPickerSimple
+                value={locationData}
+                onChange={handleLocationChange}
+                error={errors.location || errors.latitude || errors.longitude}
+              />
+            </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="wage" className="flex items-center gap-2">
-                  <DollarSign className="w-4 h-4" />
-                  Wage *
-                </Label>
-                <Input
-                  id="wage"
-                  value={formData.wage}
-                  onChange={(e) => setFormData({ ...formData, wage: e.target.value })}
-                  placeholder="e.g., ₹500-700/day"
-                />
-                {errors.wage && <p className="text-sm text-destructive">{errors.wage}</p>}
-              </div>
+            <div className="space-y-2">
+              <Label htmlFor="wage" className="flex items-center gap-2">
+                <DollarSign className="w-4 h-4" />
+                Wage *
+              </Label>
+              <Input
+                id="wage"
+                value={formData.wage}
+                onChange={(e) => setFormData({ ...formData, wage: e.target.value })}
+                placeholder="e.g., ₹500-700/day"
+              />
+              {errors.wage && <p className="text-sm text-destructive">{errors.wage}</p>}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
