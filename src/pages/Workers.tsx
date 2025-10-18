@@ -9,6 +9,7 @@ import CreateWorkerProfileModal from "@/components/CreateWorkerProfileModal";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const Workers = () => {
   const { t } = useTranslation();
@@ -306,17 +307,67 @@ const Workers = () => {
     }
   ]);
 
-  // Load user-created profiles from localStorage on component mount
+  // Load worker profiles from database on component mount
   useEffect(() => {
-    const savedProfiles = localStorage.getItem('userCreatedWorkerProfiles');
-    if (savedProfiles) {
+    const loadWorkerProfiles = async () => {
       try {
-        const profiles = JSON.parse(savedProfiles);
-        setUserCreatedProfiles(profiles);
+        // Try to load from database first
+        const { data: dbProfiles, error } = await (supabase as any)
+          .from('worker_profiles')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (!error && dbProfiles) {
+          // Transform database profiles to match UI format
+          const transformedProfiles = dbProfiles.map((profile: any) => ({
+            id: profile.id,
+            name: profile.name,
+            trade: profile.trade,
+            location: profile.location,
+            rating: profile.rating || 0,
+            reviewCount: profile.review_count || 0,
+            skills: profile.skills || [],
+            yearsExperience: profile.years_experience,
+            phone: profile.phone,
+            email: profile.email,
+            hourlyRate: profile.hourly_rate,
+            availability: profile.availability,
+            bio: profile.bio,
+            certifications: profile.certifications || [],
+            previousWork: profile.previous_work || [],
+            languages: profile.languages || [],
+            createdAt: profile.created_at,
+            isUserCreated: true,
+          }));
+          setUserCreatedProfiles(transformedProfiles);
+        } else {
+          // Fallback to localStorage if database table doesn't exist yet
+          const savedProfiles = localStorage.getItem('userCreatedWorkerProfiles');
+          if (savedProfiles) {
+            try {
+              const profiles = JSON.parse(savedProfiles);
+              setUserCreatedProfiles(profiles);
+            } catch (error) {
+              console.error('Error loading saved profiles from localStorage:', error);
+            }
+          }
+        }
       } catch (error) {
-        console.error('Error loading saved profiles:', error);
+        console.error('Error loading worker profiles:', error);
+        // Fallback to localStorage
+        const savedProfiles = localStorage.getItem('userCreatedWorkerProfiles');
+        if (savedProfiles) {
+          try {
+            const profiles = JSON.parse(savedProfiles);
+            setUserCreatedProfiles(profiles);
+          } catch (error) {
+            console.error('Error loading saved profiles from localStorage:', error);
+          }
+        }
       }
-    }
+    };
+
+    loadWorkerProfiles();
   }, []);
 
   // Combine mock workers with user-created profiles
@@ -391,16 +442,53 @@ const Workers = () => {
     setDisplayedWorkers(prev => Math.min(prev + 6, filteredWorkers.length));
   };
 
-  const handleProfileCreated = (newWorkerProfile: any) => {
-    // Add the new worker profile to user-created profiles
-    const updatedProfiles = [newWorkerProfile, ...userCreatedProfiles];
-    setUserCreatedProfiles(updatedProfiles);
-    
-    // Save to localStorage for persistence
+  const handleProfileCreated = async (newWorkerProfile: any) => {
+    // Refresh the worker profiles from database
     try {
-      localStorage.setItem('userCreatedWorkerProfiles', JSON.stringify(updatedProfiles));
+      const { data: dbProfiles, error } = await (supabase as any)
+        .from('worker_profiles')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (!error && dbProfiles) {
+        const transformedProfiles = dbProfiles.map((profile: any) => ({
+          id: profile.id,
+          name: profile.name,
+          trade: profile.trade,
+          location: profile.location,
+          rating: profile.rating || 0,
+          reviewCount: profile.review_count || 0,
+          skills: profile.skills || [],
+          yearsExperience: profile.years_experience,
+          phone: profile.phone,
+          email: profile.email,
+          hourlyRate: profile.hourly_rate,
+          availability: profile.availability,
+          bio: profile.bio,
+          certifications: profile.certifications || [],
+          previousWork: profile.previous_work || [],
+          languages: profile.languages || [],
+          createdAt: profile.created_at,
+          isUserCreated: true,
+        }));
+        setUserCreatedProfiles(transformedProfiles);
+      } else {
+        // Fallback to adding to current state if database query fails
+        const updatedProfiles = [newWorkerProfile, ...userCreatedProfiles];
+        setUserCreatedProfiles(updatedProfiles);
+        
+        // Save to localStorage as backup
+        try {
+          localStorage.setItem('userCreatedWorkerProfiles', JSON.stringify(updatedProfiles));
+        } catch (error) {
+          console.error('Error saving profile to localStorage:', error);
+        }
+      }
     } catch (error) {
-      console.error('Error saving profile to localStorage:', error);
+      console.error('Error refreshing profiles:', error);
+      // Fallback to adding to current state
+      const updatedProfiles = [newWorkerProfile, ...userCreatedProfiles];
+      setUserCreatedProfiles(updatedProfiles);
     }
     
     // Show success message
@@ -453,14 +541,6 @@ const Workers = () => {
                 >
                   <Plus className="w-5 h-5" />
                   {t('create_worker_profile')}
-                </Button>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="flex items-center gap-2 min-w-[150px]"
-                >
-                  <Briefcase className="w-5 h-5" />
-                  {t('learn_more')}
                 </Button>
               </div>
             </div>

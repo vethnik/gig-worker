@@ -61,24 +61,23 @@ const Index = () => {
               <div className="w-14 h-14 bg-primary/20 backdrop-blur-glass rounded-2xl flex items-center justify-center mb-6 border border-primary/30 shadow-neon-blue">
                 <Users className="w-7 h-7 text-primary" />
               </div>
-              <h3 className="text-2xl font-semibold text-white mb-4">{t('verified_professionals')}</h3>
-              <p className="text-white/70 leading-relaxed">
+              <h3 className="text-2xl font-semibold text-card-foreground mb-4">{t('verified_professionals')}</h3>
+              <p className="text-muted-foreground leading-relaxed">
                 {t('verified_professionals_desc')}
               </p>
             </div>
             
             {/* Secure Payments Card */}
             <div 
-              className="group relative p-8 rounded-3xl backdrop-blur-glass border border-white/10 hover:border-accent/50 shadow-card hover:shadow-neon-purple transition-all duration-300 overflow-hidden"
-              style={{ background: 'var(--glass-bg)' }}
+              className="group relative p-8 rounded-3xl backdrop-blur-glass border border-border hover:border-accent/50 shadow-card hover:shadow-neon-purple transition-all duration-300 overflow-hidden bg-card"
             >
               {/* Mini Payment UI Mockup */}
-              <div className="mb-6 p-4 rounded-2xl bg-white/5 border border-white/10">
+              <div className="mb-6 p-4 rounded-2xl bg-muted/50 border border-border">
                 <div className="flex justify-between items-center mb-3">
-                  <div className="text-white/60 text-xs">Payment Amount</div>
+                  <div className="text-muted-foreground text-xs">Payment Amount</div>
                   <Shield className="w-4 h-4 text-accent" />
                 </div>
-                <div className="text-white text-xl font-bold mb-3">₹5,280</div>
+                <div className="text-card-foreground text-xl font-bold mb-3">₹5,280</div>
                 <div className="h-8 bg-accent/20 rounded-lg flex items-center justify-center border border-accent/30">
                   <span className="text-accent text-xs font-medium">Confirm Payment</span>
                 </div>
@@ -87,8 +86,8 @@ const Index = () => {
               <div className="w-14 h-14 bg-accent/20 backdrop-blur-glass rounded-2xl flex items-center justify-center mb-6 border border-accent/30 shadow-neon-purple">
                 <Shield className="w-7 h-7 text-accent" />
               </div>
-              <h3 className="text-2xl font-semibold text-white mb-4">{t('secure_payments')}</h3>
-              <p className="text-white/70 leading-relaxed">
+              <h3 className="text-2xl font-semibold text-card-foreground mb-4">{t('secure_payments')}</h3>
+              <p className="text-muted-foreground leading-relaxed">
                 {t('secure_payments_desc')}
               </p>
             </div>
@@ -106,14 +105,14 @@ const Index = () => {
                   <div className="w-full bg-secondary/60 rounded-t" style={{height: '80%'}}></div>
                   <div className="w-full bg-secondary rounded-t" style={{height: '100%'}}></div>
                 </div>
-                <div className="text-white/60 text-xs">Match Rate: 98%</div>
+                <div className="text-muted-foreground text-xs">Match Rate: 98%</div>
               </div>
               
               <div className="w-14 h-14 bg-secondary/20 backdrop-blur-glass rounded-2xl flex items-center justify-center mb-6 border border-secondary/30 shadow-neon-pink">
                 <Clock className="w-7 h-7 text-secondary" />
               </div>
-              <h3 className="text-2xl font-semibold text-white mb-4">{t('quick_matching')}</h3>
-              <p className="text-white/70 leading-relaxed">
+              <h3 className="text-2xl font-semibold text-card-foreground mb-4">{t('quick_matching')}</h3>
+              <p className="text-muted-foreground leading-relaxed">
                 {t('quick_matching_desc')}
               </p>
             </div>

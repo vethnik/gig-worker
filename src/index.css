@@ -72,38 +72,38 @@ All colors MUST be HSL.
 
 @layer base {
 :root {
-    --background: 220 60% 8%;
-    --foreground: 0 0% 100%;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
 
-    --card: 220 50% 12%;
-    --card-foreground: 0 0% 100%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
 
-    --popover: 220 50% 12%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
 
-    --primary: 220 100% 65%;
-    --primary-foreground: 0 0% 100%;
-    --primary-glow: 220 100% 75%;
+    --primary: 220 100% 55%;
+    --primary-foreground: 0 0% 98%;
+    --primary-glow: 220 100% 65%;
 
-    --secondary: 270 60% 65%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 220 14.3% 95.9%;
+    --secondary-foreground: 220 8.9% 46.1%;
 
-    --muted: 220 40% 20%;
-    --muted-foreground: 220 20% 70%;
+    --muted: 220 14.3% 95.9%;
+    --muted-foreground: 220 8.9% 46.1%;
 
-    --accent: 280 85% 65%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 220 14.3% 95.9%;
+    --accent-foreground: 220 8.9% 46.1%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 220 40% 20%;
-    --input: 220 40% 20%;
-    --ring: 220 100% 65%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 220 100% 55%;
 
     /* Glassmorphism */
-    --glass-bg: rgba(255, 255, 255, 0.05);
-    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-bg: rgba(0, 0, 0, 0.05);
+    --glass-border: rgba(0, 0, 0, 0.1);
 
     /* Neon Colors */
     --neon-blue: 220 100% 65%;
@@ -111,12 +111,12 @@ All colors MUST be HSL.
     --neon-pink: 320 100% 65%;
 
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(220 100% 65%), hsl(270 60% 65%));
-    --gradient-hero: linear-gradient(135deg, hsl(220 60% 8%), hsl(220 50% 12%));
+    --gradient-primary: linear-gradient(135deg, hsl(220 100% 55%), hsl(270 60% 55%));
+    --gradient-hero: linear-gradient(135deg, hsl(0 0% 100%), hsl(220 13% 95%));
     --gradient-card-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --gradient-card-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
     --gradient-card-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(220 60% 8%), hsl(220 50% 10%));
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(220 13% 97%));
 
     /* Shadows */
     --shadow-elegant: 0 10px 30px -10px hsl(220 100% 65% / 0.3);
@@ -181,9 +181,12 @@ All colors MUST be HSL.
     --glass-bg: rgba(255, 255, 255, 0.05);
     --glass-border: rgba(255, 255, 255, 0.1);
 
+    --gradient-primary: linear-gradient(135deg, hsl(220 100% 65%), hsl(270 60% 65%));
+    --gradient-hero: linear-gradient(135deg, hsl(220 60% 8%), hsl(220 50% 12%));
     --gradient-card-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --gradient-card-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
     --gradient-card-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(220 60% 8%), hsl(220 50% 10%));
 
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;

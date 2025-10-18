@@ -29,7 +29,7 @@ const Hero = () => {
       {/* Animated Background Grid */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute inset-0" style={{
-          backgroundImage: 'linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px)',
+          backgroundImage: 'linear-gradient(hsl(var(--border)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--border)) 1px, transparent 1px)',
           backgroundSize: '50px 50px'
         }}></div>
       </div>
@@ -43,21 +43,21 @@ const Hero = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div className="text-left">
-            <h1 className={`hero-title font-bold text-white mb-6 animate-fade-in lang-${currentLang}`} style={{textShadow: '0 0 40px rgba(66, 153, 255, 0.5)'}}>
+            <h1 className={`hero-title font-bold text-foreground mb-6 animate-fade-in lang-${currentLang}`} style={{textShadow: '0 0 40px hsl(var(--primary) / 0.5)'}}>
               {t('hero_title_1')}
               <span className={`hero-subtitle block text-transparent bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text mt-2 lang-${currentLang}`}>
                 {t('hero_title_2')}
               </span>
             </h1>
             
-            <p className={`hero-description text-white/80 mb-8 max-w-2xl animate-fade-in lang-${currentLang}`} style={{animationDelay: '0.2s'}}>
+            <p className={`hero-description text-muted-foreground mb-8 max-w-2xl animate-fade-in lang-${currentLang}`} style={{animationDelay: '0.2s'}}>
               {t('hero_description')}
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 animate-fade-in" style={{animationDelay: '0.4s'}}>
               <Button 
                 size="lg" 
-                className="text-lg px-8 py-6 bg-primary hover:bg-primary/90 text-white shadow-neon-blue hover:shadow-glow transition-all duration-300" 
+                className="text-lg px-8 py-6" 
                 asChild
               >
                 <a href="/jobs">
@@ -67,7 +67,8 @@ const Hero = () => {
               </Button>
               <Button 
                 size="lg" 
-                className="text-lg px-8 py-6 bg-white/10 backdrop-blur-glass border-2 border-white/20 text-white hover:bg-white/20 hover:border-white/30 transition-all duration-300" 
+                variant="outline"
+                className="text-lg px-8 py-6" 
                 onClick={handlePostJobClick}
               >
                 {t('post_job')}
@@ -153,36 +154,33 @@ const Hero = () => {
         {/* Stats Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-20 animate-slide-up" style={{animationDelay: '0.8s'}}>
           <div 
-            className="text-center p-8 rounded-3xl backdrop-blur-glass border border-white/10 hover:border-primary/50 transition-all duration-300 hover:shadow-neon-blue"
-            style={{ background: 'var(--glass-bg)' }}
+            className="text-center p-8 rounded-3xl backdrop-blur-glass border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-neon-blue bg-card"
           >
-            <div className="w-16 h-16 bg-white/10 backdrop-blur-glass rounded-2xl flex items-center justify-center mx-auto mb-4 border border-white/20">
+            <div className="w-16 h-16 bg-muted backdrop-blur-glass rounded-2xl flex items-center justify-center mx-auto mb-4 border border-border">
               <Users className="w-8 h-8 text-primary" />
             </div>
-            <h3 className="text-4xl font-bold text-white mb-2">10K+</h3>
-            <p className="text-white/70">{t('skilled_workers')}</p>
+            <h3 className="text-4xl font-bold text-card-foreground mb-2">10K+</h3>
+            <p className="text-muted-foreground">{t('skilled_workers')}</p>
           </div>
           
           <div 
-            className="text-center p-8 rounded-3xl backdrop-blur-glass border border-white/10 hover:border-accent/50 transition-all duration-300 hover:shadow-neon-purple"
-            style={{ background: 'var(--glass-bg)' }}
+            className="text-center p-8 rounded-3xl backdrop-blur-glass border border-border hover:border-accent/50 transition-all duration-300 hover:shadow-neon-purple bg-card"
           >
-            <div className="w-16 h-16 bg-white/10 backdrop-blur-glass rounded-2xl flex items-center justify-center mx-auto mb-4 border border-white/20">
+            <div className="w-16 h-16 bg-muted backdrop-blur-glass rounded-2xl flex items-center justify-center mx-auto mb-4 border border-border">
               <Briefcase className="w-8 h-8 text-accent" />
             </div>
-            <h3 className="text-4xl font-bold text-white mb-2">5K+</h3>
-            <p className="text-white/70">{t('active_jobs')}</p>
+            <h3 className="text-4xl font-bold text-card-foreground mb-2">5K+</h3>
+            <p className="text-muted-foreground">{t('active_jobs')}</p>
           </div>
           
           <div 
-            className="text-center p-8 rounded-3xl backdrop-blur-glass border border-white/10 hover:border-secondary/50 transition-all duration-300 hover:shadow-neon-pink"
-            style={{ background: 'var(--glass-bg)' }}
+            className="text-center p-8 rounded-3xl backdrop-blur-glass border border-border hover:border-secondary/50 transition-all duration-300 hover:shadow-neon-pink bg-card"
           >
-            <div className="w-16 h-16 bg-white/10 backdrop-blur-glass rounded-2xl flex items-center justify-center mx-auto mb-4 border border-white/20">
+            <div className="w-16 h-16 bg-muted backdrop-blur-glass rounded-2xl flex items-center justify-center mx-auto mb-4 border border-border">
               <MapPin className="w-8 h-8 text-secondary" />
             </div>
-            <h3 className="text-4xl font-bold text-white mb-2">50+</h3>
-            <p className="text-white/70">{t('cities_covered')}</p>
+            <h3 className="text-4xl font-bold text-card-foreground mb-2">50+</h3>
+            <p className="text-muted-foreground">{t('cities_covered')}</p>
           </div>
         </div>
       </div>

@@ -18,7 +18,7 @@ const NotFound = () => {
           <div className="relative">
             <div className="absolute inset-0 bg-primary/20 rounded-full blur-3xl animate-pulse"></div>
             <div className="relative bg-gradient-primary rounded-full p-8 animate-scale-in">
-              <SearchX className="w-24 h-24 text-white" strokeWidth={1.5} />
+              <SearchX className="w-24 h-24 text-primary-foreground" strokeWidth={1.5} />
             </div>
           </div>
         </div>

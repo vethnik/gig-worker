@@ -336,14 +336,14 @@ const Profile = () => {
                     />
                   ) : (
                     <div className="w-24 h-24 bg-gradient-primary rounded-full flex items-center justify-center">
-                      <User className="w-12 h-12 text-white" />
+                      <User className="w-12 h-12 text-primary-foreground" />
                     </div>
                   )}
                   <label 
                     htmlFor="photo-upload" 
                     className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity"
                   >
-                    <Edit3 className="w-6 h-6 text-white" />
+                    <Edit3 className="w-6 h-6 text-primary-foreground" />
                     <input
                       id="photo-upload"
                       type="file"

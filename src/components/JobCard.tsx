@@ -113,8 +113,7 @@ const JobCard = ({ jobId, title, company, location, wage, type, description, ski
   };
   return (
     <div 
-      className={`group relative p-6 rounded-3xl backdrop-blur-glass border border-white/10 shadow-card hover:shadow-neon-blue transition-all duration-300 hover:-translate-y-1 overflow-hidden ${isFull ? 'opacity-60' : ''}`}
-      style={{ background: 'var(--glass-bg)' }}
+      className={`group relative p-6 rounded-3xl backdrop-blur-glass border border-border shadow-card hover:shadow-neon-blue transition-all duration-300 hover:-translate-y-1 overflow-hidden bg-card ${isFull ? 'opacity-60' : ''}`}
     >
       {/* Gradient overlay on hover */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/0 via-primary/0 to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-3xl"></div>
@@ -123,21 +122,21 @@ const JobCard = ({ jobId, title, company, location, wage, type, description, ski
         <div className="flex justify-between items-start mb-4">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
-              <h3 className="text-xl font-semibold text-white">{title}</h3>
+              <h3 className="text-xl font-semibold text-card-foreground">{title}</h3>
               {!isFull && (
                 <span className="px-2 py-1 text-xs font-medium bg-primary/20 text-primary border border-primary/30 rounded-full">
                   {t('active')}
                 </span>
               )}
             </div>
-            <div className="flex items-center text-white/60 mb-2">
+            <div className="flex items-center text-muted-foreground mb-2">
               <User className="w-4 h-4 mr-2" />
               <span className="text-sm">{company}</span>
             </div>
           </div>
           <div className="text-right">
             <div className="text-2xl font-bold text-transparent bg-gradient-to-r from-primary to-accent bg-clip-text">{wage}</div>
-            <div className="text-xs text-white/60 mt-1 px-2 py-1 bg-white/5 rounded-full">
+            <div className="text-xs text-muted-foreground mt-1 px-2 py-1 bg-muted rounded-full">
               {type === 'Daily Wage' ? t('daily_wage') : 
                type === 'Contract' ? t('contract') : 
                type === 'Seasonal' ? t('seasonal') : 
@@ -148,15 +147,15 @@ const JobCard = ({ jobId, title, company, location, wage, type, description, ski
         </div>
         
         {/* Location and Time Info */}
-        <div className="flex items-center text-white/70 mb-4 flex-wrap gap-4">
+        <div className="flex items-center text-muted-foreground mb-4 flex-wrap gap-4">
           <div className="flex items-center gap-1.5">
-            <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-muted border border-border flex items-center justify-center">
               <MapPin className="w-4 h-4 text-primary" />
             </div>
             <span className="text-sm">{location}</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-muted border border-border flex items-center justify-center">
               <Clock className="w-4 h-4 text-accent" />
             </div>
             <span className="text-sm">{postedTime}</span>
@@ -164,43 +163,43 @@ const JobCard = ({ jobId, title, company, location, wage, type, description, ski
         </div>
 
         {/* Positions Available */}
-        <div className="mb-4 p-3 rounded-2xl bg-white/5 border border-white/10">
+        <div className="mb-4 p-3 rounded-2xl bg-muted/50 border border-border">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 border border-primary/30 flex items-center justify-center">
                 <Users className="w-5 h-5 text-primary" />
               </div>
               <div>
-                <div className="text-xs text-white/60">{t('positions')}</div>
-                <div className={`text-sm font-semibold ${isFull ? 'text-destructive' : 'text-white'}`}>
+                <div className="text-xs text-muted-foreground">{t('positions')}</div>
+                <div className={`text-sm font-semibold ${isFull ? 'text-destructive' : 'text-card-foreground'}`}>
                   {isFull ? t('filled') : `${positionsRemaining} ${t('available')}`}
                 </div>
               </div>
             </div>
             {!isFull && (
               <div className="text-right">
-                <div className="text-xs text-white/60">{t('total')}</div>
-                <div className="text-sm font-semibold text-white">{positionsAvailable}</div>
+                <div className="text-xs text-muted-foreground">{t('total')}</div>
+                <div className="text-sm font-semibold text-card-foreground">{positionsAvailable}</div>
               </div>
             )}
           </div>
         </div>
         
         {/* Description */}
-        <p className="text-white/70 mb-4 text-sm leading-relaxed line-clamp-2">{description}</p>
+        <p className="text-muted-foreground mb-4 text-sm leading-relaxed line-clamp-2">{description}</p>
         
         {/* Skills */}
         <div className="flex flex-wrap gap-2 mb-5">
           {skills.slice(0, 4).map((skill, index) => (
             <span
               key={index}
-              className="px-3 py-1.5 bg-white/5 backdrop-blur-sm text-white/80 text-xs rounded-lg font-medium border border-white/10 hover:border-primary/50 transition-colors"
+              className="px-3 py-1.5 bg-muted backdrop-blur-sm text-muted-foreground text-xs rounded-lg font-medium border border-border hover:border-primary/50 transition-colors"
             >
               {skill}
             </span>
           ))}
           {skills.length > 4 && (
-            <span className="px-3 py-1.5 bg-white/5 text-white/60 text-xs rounded-lg">
+            <span className="px-3 py-1.5 bg-muted text-muted-foreground text-xs rounded-lg">
               +{skills.length - 4} {t('more')}
             </span>
           )}
@@ -209,7 +208,7 @@ const JobCard = ({ jobId, title, company, location, wage, type, description, ski
         {/* Action Buttons */}
         <div className="flex gap-3">
           <Button 
-            className="flex-1 bg-primary hover:bg-primary/90 text-white shadow-neon-blue hover:shadow-glow transition-all duration-300 font-semibold"
+            className="flex-1"
             onClick={() => setIsApplicationModalOpen(true)}
             disabled={isFull}
           >
@@ -217,20 +216,21 @@ const JobCard = ({ jobId, title, company, location, wage, type, description, ski
           </Button>
           <Button 
             size="icon"
-            className="bg-white/10 backdrop-blur-glass border border-white/20 hover:bg-white/20 hover:border-white/30 transition-all duration-300"
+            variant="outline"
             onClick={() => setIsDetailsModalOpen(true)}
             title={t('view_details')}
           >
-            <Eye className="w-4 h-4 text-white" />
+            <Eye className="w-4 h-4" />
           </Button>
           <Button 
             size="icon"
-            className={`bg-white/10 backdrop-blur-glass border border-white/20 hover:bg-white/20 hover:border-white/30 transition-all duration-300 ${isSaved ? 'shadow-neon-purple border-accent/50' : ''}`}
+            variant="outline"
+            className={isSaved ? 'border-accent/50 bg-accent/10' : ''}
             onClick={handleSaveJob}
             disabled={saveLoading}
             title={isSaved ? "Unsave Job" : "Save Job"}
           >
-            {isSaved ? <BookmarkCheck className="w-4 h-4 text-accent" /> : <Bookmark className="w-4 h-4 text-white" />}
+            {isSaved ? <BookmarkCheck className="w-4 h-4 text-accent" /> : <Bookmark className="w-4 h-4" />}
           </Button>
         </div>
       </div>

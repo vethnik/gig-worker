@@ -10,6 +10,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { z } from "zod";
 import { User, Briefcase, MapPin, Star, Phone, Mail, Award } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { supabase } from "@/integrations/supabase/client";
 
 const workerProfileSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(100),
@@ -98,32 +99,82 @@ const CreateWorkerProfileModal = ({ open, onOpenChange, onProfileCreated }: Crea
         ? validated.skills.split(",").map((s) => s.trim()).filter(Boolean)
         : [];
 
-      // Create the new worker profile object
-      const newWorkerProfile = {
-        id: `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`, // Unique ID
-        name: validated.name,
-        trade: validated.trade,
-        location: validated.location,
-        rating: 0, // New profile starts with no rating
-        reviewCount: 0, // New profile starts with no reviews
-        skills: skillsArray,
-        yearsExperience: validated.yearsExperience,
-        phone: validated.phone,
-        email: validated.email,
-        hourlyRate: validated.hourlyRate,
-        availability: validated.availability,
-        bio: validated.bio,
-        // Add default values for WorkerDetailsModal compatibility
-        certifications: ["Profile Recently Created"],
-        previousWork: ["New to the platform"],
-        languages: ["English"],
-        createdAt: new Date().toISOString(), // Track when profile was created
-        isUserCreated: true, // Flag to identify user-created profiles
-      };
+      // Try to save to database, fallback to localStorage if table doesn't exist
+      let newWorkerProfile;
+      
+      try {
+        // Attempt to save to database
+        const { data: workerProfile, error } = await (supabase as any)
+          .from('worker_profiles')
+          .insert({
+            user_id: user.id,
+            name: validated.name,
+            trade: validated.trade,
+            location: validated.location,
+            years_experience: validated.yearsExperience,
+            bio: validated.bio,
+            skills: skillsArray,
+            phone: validated.phone,
+            email: validated.email,
+            hourly_rate: validated.hourlyRate,
+            availability: validated.availability,
+            certifications: ["Profile Recently Created"],
+            previous_work: ["New to the platform"],
+            languages: ["English"]
+          })
+          .select()
+          .single();
 
-      // Here you would typically save to your database
-      // For now, we'll just simulate success
-      await new Promise(resolve => setTimeout(resolve, 1000));
+        if (error) {
+          throw new Error(error.message);
+        }
+
+        // Create the worker profile object from database response
+        newWorkerProfile = {
+          id: workerProfile.id,
+          name: workerProfile.name,
+          trade: workerProfile.trade,
+          location: workerProfile.location,
+          rating: workerProfile.rating || 0,
+          reviewCount: workerProfile.review_count || 0,
+          skills: workerProfile.skills || [],
+          yearsExperience: workerProfile.years_experience,
+          phone: workerProfile.phone,
+          email: workerProfile.email,
+          hourlyRate: workerProfile.hourly_rate,
+          availability: workerProfile.availability,
+          bio: workerProfile.bio,
+          certifications: workerProfile.certifications || [],
+          previousWork: workerProfile.previous_work || [],
+          languages: workerProfile.languages || [],
+          createdAt: workerProfile.created_at,
+          isUserCreated: true,
+        };
+      } catch (dbError) {
+        console.log('Database save failed, using localStorage fallback:', dbError);
+        
+        // Fallback: Create profile object for localStorage
+        newWorkerProfile = {
+          id: `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+          name: validated.name,
+          trade: validated.trade,
+          location: validated.location,
+          rating: 0,
+          reviewCount: 0,
+          skills: skillsArray,
+          yearsExperience: validated.yearsExperience,
+          phone: validated.phone,
+          email: validated.email,
+          hourlyRate: validated.hourlyRate,
+          availability: validated.availability,
+          bio: validated.bio,
+          certifications: ["Profile Recently Created"],
+          previousWork: ["New to the platform"],
+          languages: ["English"],
+          createdAt: new Date().toISOString(),
+          isUserCreated: true,
+        };
+      }
 
       toast({
         title: "Success!",
