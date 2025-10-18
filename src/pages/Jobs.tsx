@@ -19,20 +19,25 @@ const Jobs = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState("");
   const [locationFilter, setLocationFilter] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(t('all_jobs'));
+  const [selectedCategory, setSelectedCategory] = useState("all_jobs");
   const [isPostJobModalOpen, setIsPostJobModalOpen] = useState(false);
   const [jobs, setJobs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Define filter categories
-  const categories = [
-    t('all_jobs'),
-    t('construction_related_work'),
-    t('loading_unloading'),
-    t('household_work'),
-    t('outdoor_agricultural_work'),
-    t('small_contract_work'),
+  // Define filter categories with keys and translations
+  const categoryKeys = [
+    "all_jobs",
+    "construction_related_work",
+    "loading_unloading", 
+    "household_work",
+    "outdoor_agricultural_work",
+    "small_contract_work"
   ];
+  
+  const categories = categoryKeys.map(key => ({
+    key,
+    label: t(key)
+  }));
 
   useEffect(() => {
     fetchJobs();
@@ -73,12 +78,64 @@ const Jobs = () => {
     fetchJobs();
   };
 
+  // Create a mapping function to check if job matches category
+  const jobMatchesCategory = (job: any, categoryKey: string) => {
+    // If "All Jobs" is selected, show all
+    if (categoryKey === "all_jobs") {
+      return true;
+    }
+    
+    // Map category keys to their corresponding job categories/keywords
+    const jobTitle = job.title.toLowerCase();
+    const jobDescription = job.description?.toLowerCase() || "";
+    const jobCategory = job.category?.toLowerCase() || "";
+    
+    if (categoryKey === "construction_related_work") {
+      return jobTitle.includes("construction") || 
+             jobTitle.includes("building") || 
+             jobTitle.includes("carpenter") ||
+             jobTitle.includes("mason") ||
+             jobDescription.includes("construction") ||
+             jobCategory.includes("construction");
+    }
+    if (categoryKey === "loading_unloading") {
+      return jobTitle.includes("loading") || 
+             jobTitle.includes("unloading") ||
+             jobTitle.includes("warehouse") ||
+             jobTitle.includes("logistics") ||
+             jobDescription.includes("loading") ||
+             jobDescription.includes("unloading");
+    }
+    if (categoryKey === "household_work") {
+      return jobTitle.includes("household") || 
+             jobTitle.includes("cleaning") ||
+             jobTitle.includes("domestic") ||
+             jobTitle.includes("home") ||
+             jobDescription.includes("household") ||
+             jobDescription.includes("cleaning");
+    }
+    if (categoryKey === "outdoor_agricultural_work") {
+      return jobTitle.includes("agricultural") || 
+             jobTitle.includes("farming") ||
+             jobTitle.includes("outdoor") ||
+             jobTitle.includes("landscaping") ||
+             jobDescription.includes("agricultural") ||
+             jobDescription.includes("farming");
+    }
+    if (categoryKey === "small_contract_work") {
+      return jobTitle.includes("contract") || 
+             jobTitle.includes("freelance") ||
+             jobTitle.includes("project") ||
+             jobDescription.includes("contract") ||
+             jobDescription.includes("project");
+    }
+    
+    return false;
+  };
+
   // Filter jobs based on selected category and search term
   const filteredJobs = jobs.filter((job) => {
-    const matchesCategory =
-      selectedCategory === t('all_jobs') ||
-      job.category === selectedCategory ||
-      job.title.toLowerCase().includes(selectedCategory.toLowerCase());
+    const matchesCategory = jobMatchesCategory(job, selectedCategory);
 
     const matchesSearch =
       searchTerm === "" ||
@@ -171,13 +228,13 @@ const Jobs = () => {
           <div className="flex flex-wrap gap-2">
             {categories.map((category) => (
               <Button
-                key={category}
-                variant={selectedCategory === category ? "default" : "outline"}
+                key={category.key}
+                variant={selectedCategory === category.key ? "default" : "outline"}
                 size="sm"
-                onClick={() => setSelectedCategory(category)}
+                onClick={() => setSelectedCategory(category.key)}
                 className="transition-all duration-200"
               >
-                {category}
+                {category.label}
               </Button>
             ))}
           </div>
@@ -187,9 +244,9 @@ const Jobs = () => {
         <div className="flex justify-between items-center mb-6">
           <p className="text-muted-foreground">
             {t('showing_jobs_in_area', { count: filteredJobs.length })}
-            {selectedCategory !== t('all_jobs') && (
+            {selectedCategory !== "all_jobs" && (
               <span className="ml-2 text-primary">
-                {t('filtered_by', { category: selectedCategory })}
+                {t('filtered_by', { category: t(selectedCategory) })}
               </span>
             )}
           </p>
@@ -231,7 +288,7 @@ const Jobs = () => {
               <Button 
                 variant="outline" 
                 onClick={() => {
-                  setSelectedCategory(t('all_jobs'));
+                  setSelectedCategory("all_jobs");
                   setSearchTerm("");
                   setLocationFilter("");
                 }}

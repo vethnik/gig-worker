@@ -1,33 +1,45 @@
-import { useState } from "react";
-import { Search, Filter, MapPin, Star } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Search, Filter, MapPin, Star, Plus, UserPlus, Briefcase } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import WorkerCard from "@/components/WorkerCard";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import CreateWorkerProfileModal from "@/components/CreateWorkerProfileModal";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/use-toast";
 
 const Workers = () => {
   const { t } = useTranslation();
+  const { user } = useAuth();
+  const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState("");
   const [locationFilter, setLocationFilter] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(t('all_workers'));
+  const [selectedCategory, setSelectedCategory] = useState("all_workers");
   const [displayedWorkers, setDisplayedWorkers] = useState(6); // Initially show 6 workers
+  const [isCreateProfileModalOpen, setIsCreateProfileModalOpen] = useState(false);
+  const [userCreatedProfiles, setUserCreatedProfiles] = useState<any[]>([]);
 
-  // Define filter categories
-  const categories = [
-    t('all_workers'),
-    t('general_laborers'),
-    t('carpenters'), 
-    t('electricians'),
-    t('masons'),
-    t('hvac'),
-    t('plumbers'),
-    t('tile_installers')
+  // Define filter categories with keys and translations
+  const categoryKeys = [
+    "all_workers",
+    "general_laborers", 
+    "carpenters",
+    "electricians",
+    "masons",
+    "hvac",
+    "plumbers",
+    "tile_installers"
   ];
+  
+  const categories = categoryKeys.map(key => ({
+    key,
+    label: t(key)
+  }));
 
-  // Mock worker data
-  const workers = [
+  // Mock worker data - convert to state so we can add new profiles
+  const [workers, setWorkers] = useState([
     {
       name: "Mike Johnson",
       trade: "Master Carpenter",
@@ -292,32 +304,73 @@ const Workers = () => {
       phone: "(555) 456-7890",
       email: "jose@example.com"
     }
-  ];
+  ]);
+
+  // Load user-created profiles from localStorage on component mount
+  useEffect(() => {
+    const savedProfiles = localStorage.getItem('userCreatedWorkerProfiles');
+    if (savedProfiles) {
+      try {
+        const profiles = JSON.parse(savedProfiles);
+        setUserCreatedProfiles(profiles);
+      } catch (error) {
+        console.error('Error loading saved profiles:', error);
+      }
+    }
+  }, []);
+
+  // Combine mock workers with user-created profiles
+  const allWorkers = [...userCreatedProfiles, ...workers];
+
+  // Create a mapping function to check if worker matches category
+  const workerMatchesCategory = (worker: any, categoryKey: string) => {
+    const tradeLower = worker.trade.toLowerCase();
+    
+    // If "All Workers" is selected, show all
+    if (categoryKey === "all_workers") {
+      return true;
+    }
+    
+    // Map category keys to their corresponding trade keywords
+    if (categoryKey === "carpenters") {
+      return tradeLower.includes("carpenter");
+    }
+    if (categoryKey === "electricians") {
+      return tradeLower.includes("electrician");
+    }
+    if (categoryKey === "masons") {
+      return tradeLower.includes("mason") || tradeLower.includes("stone");
+    }
+    if (categoryKey === "hvac") {
+      return tradeLower.includes("hvac");
+    }
+    if (categoryKey === "plumbers") {
+      return tradeLower.includes("plumber");
+    }
+    if (categoryKey === "tile_installers") {
+      return tradeLower.includes("tile");
+    }
+    if (categoryKey === "general_laborers") {
+      return tradeLower.includes("laborer") || 
+             tradeLower.includes("warehouse") || 
+             tradeLower.includes("landscaping") ||
+             tradeLower.includes("manufacturing") ||
+             tradeLower.includes("janitorial") ||
+             tradeLower.includes("farm") ||
+             tradeLower.includes("event") ||
+             tradeLower.includes("helper") ||
+             tradeLower.includes("groundskeeper") ||
+             tradeLower.includes("factory") ||
+             tradeLower.includes("cleaning") ||
+             tradeLower.includes("general");
+    }
+    
+    return false;
+  };
 
   // Filter workers based on selected category and search term
-  const filteredWorkers = workers.filter(worker => {
-    const tradeLower = worker.trade.toLowerCase();
-    const matchesCategory = selectedCategory === t('all_workers') || 
-      tradeLower.includes(selectedCategory.toLowerCase().slice(0, -1)) || // Remove 's' from plural
-      (selectedCategory === t('carpenters') && tradeLower.includes("carpenter")) ||
-      (selectedCategory === t('electricians') && tradeLower.includes("electrician")) ||
-      (selectedCategory === t('masons') && tradeLower.includes("mason")) ||
-      (selectedCategory === t('hvac') && tradeLower.includes("hvac")) ||
-      (selectedCategory === t('plumbers') && tradeLower.includes("plumber")) ||
-      (selectedCategory === t('tile_installers') && tradeLower.includes("tile")) ||
-      (selectedCategory === t('general_laborers') && (
-        tradeLower.includes("laborer") || 
-        tradeLower.includes("warehouse") || 
-        tradeLower.includes("landscaping") ||
-        tradeLower.includes("manufacturing") ||
-        tradeLower.includes("janitorial") ||
-        tradeLower.includes("farm") ||
-        tradeLower.includes("event") ||
-        tradeLower.includes("helper") ||
-        tradeLower.includes("groundskeeper") ||
-        tradeLower.includes("factory") ||
-        tradeLower.includes("cleaning")
-      ));
+  const filteredWorkers = allWorkers.filter(worker => {
+    const matchesCategory = workerMatchesCategory(worker, selectedCategory);
     
     const matchesSearch = searchTerm === "" || 
       worker.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -338,6 +391,30 @@ const Workers = () => {
     setDisplayedWorkers(prev => Math.min(prev + 6, filteredWorkers.length));
   };
 
+  const handleProfileCreated = (newWorkerProfile: any) => {
+    // Add the new worker profile to user-created profiles
+    const updatedProfiles = [newWorkerProfile, ...userCreatedProfiles];
+    setUserCreatedProfiles(updatedProfiles);
+    
+    // Save to localStorage for persistence
+    try {
+      localStorage.setItem('userCreatedWorkerProfiles', JSON.stringify(updatedProfiles));
+    } catch (error) {
+      console.error('Error saving profile to localStorage:', error);
+    }
+    
+    // Show success message
+    toast({
+      title: "Profile Added!",
+      description: `${newWorkerProfile.name}'s profile has been added to the workers list.`,
+    });
+    
+    // Reset filters to show all workers so user can see their new profile
+    setSelectedCategory("all_workers");
+    setSearchTerm("");
+    setLocationFilter("");
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -347,6 +424,69 @@ const Workers = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-bold text-foreground mb-4">{t('find_skilled_workers')}</h1>
           <p className="text-xl text-muted-foreground">{t('connect_with_qualified_professionals')}</p>
+        </div>
+      </div>
+
+      {/* Create Worker Profile Section */}
+      <div className="bg-primary/5 border-b border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="bg-card rounded-xl p-6 shadow-card border border-border">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center">
+                  <UserPlus className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold text-foreground mb-2">
+                    {t('are_you_skilled_worker')}
+                  </h2>
+                  <p className="text-muted-foreground">
+                    {t('create_profile_description')}
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                <Button
+                  size="lg"
+                  onClick={() => setIsCreateProfileModalOpen(true)}
+                  className="flex items-center gap-2 min-w-[200px]"
+                >
+                  <Plus className="w-5 h-5" />
+                  {t('create_worker_profile')}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="flex items-center gap-2 min-w-[150px]"
+                >
+                  <Briefcase className="w-5 h-5" />
+                  {t('learn_more')}
+                </Button>
+              </div>
+            </div>
+            
+            {/* Benefits */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 pt-6 border-t border-border">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-green-100 dark:bg-green-900/20 rounded-lg flex items-center justify-center">
+                  <Star className="w-4 h-4 text-green-600 dark:text-green-400" />
+                </div>
+                <span className="text-sm text-muted-foreground">{t('get_rated_by_employers')}</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
+                  <Search className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                </div>
+                <span className="text-sm text-muted-foreground">{t('be_discovered_by_employers')}</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-purple-100 dark:bg-purple-900/20 rounded-lg flex items-center justify-center">
+                  <Briefcase className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                </div>
+                <span className="text-sm text-muted-foreground">{t('showcase_your_skills')}</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -382,13 +522,13 @@ const Workers = () => {
           <div className="flex flex-wrap gap-2">
             {categories.map((category) => (
               <Button
-                key={category}
-                variant={selectedCategory === category ? "default" : "outline"}
+                key={category.key}
+                variant={selectedCategory === category.key ? "default" : "outline"}
                 size="sm"
-                onClick={() => setSelectedCategory(category)}
+                onClick={() => setSelectedCategory(category.key)}
                 className="transition-all duration-200"
               >
-                {category}
+                {category.label}
               </Button>
             ))}
           </div>
@@ -398,9 +538,9 @@ const Workers = () => {
         <div className="flex justify-between items-center mb-6">
           <p className="text-muted-foreground">
             {t('skilled_workers_found', { count: filteredWorkers.length })}
-            {selectedCategory !== t('all_workers') && (
+            {selectedCategory !== "all_workers" && (
               <span className="ml-2 text-primary">
-                {t('filtered_by', { category: selectedCategory })}
+                {t('filtered_by', { category: t(selectedCategory) })}
               </span>
             )}
           </p>
@@ -426,7 +566,7 @@ const Workers = () => {
               <Button 
                 variant="outline" 
                 onClick={() => {
-                  setSelectedCategory(t('all_workers'));
+                  setSelectedCategory("all_workers");
                   setSearchTerm("");
                   setLocationFilter("");
                   setDisplayedWorkers(6);
@@ -449,6 +589,12 @@ const Workers = () => {
       </div>
 
       <Footer />
+      
+      <CreateWorkerProfileModal
+        open={isCreateProfileModalOpen}
+        onOpenChange={setIsCreateProfileModalOpen}
+        onProfileCreated={handleProfileCreated}
+      />
     </div>
   );
 };

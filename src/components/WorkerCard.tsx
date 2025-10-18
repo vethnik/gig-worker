@@ -16,6 +16,8 @@ interface WorkerCardProps {
   avatar?: string;
   phone?: string;
   email?: string;
+  isUserCreated?: boolean;
+  createdAt?: string;
 }
 
 const WorkerCard = ({ 
@@ -28,7 +30,9 @@ const WorkerCard = ({
   yearsExperience,
   avatar,
   phone,
-  email
+  email,
+  isUserCreated,
+  createdAt
 }: WorkerCardProps) => {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const { toast } = useToast();

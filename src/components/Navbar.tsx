@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Menu, X, Briefcase, LogOut } from "lucide-react";
+import { Menu, X, LogOut } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
@@ -7,6 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import ThemeToggle from "@/components/ThemeToggle";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import Logo from "@/components/Logo";
 import { useTranslation } from "react-i18next";
 
 const Navbar = () => {
@@ -56,11 +57,15 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
-              <Briefcase className="w-5 h-5 text-white" />
+          <Link to="/" className="flex items-center">
+            {/* Desktop Logo */}
+            <div className="hidden md:block">
+              <Logo size="md" showTagline={false} />
             </div>
-            <span className="text-xl font-bold text-foreground">{t('gig_worker')}</span>
+            {/* Mobile Logo */}
+            <div className="md:hidden">
+              <Logo size="md" showText={false} />
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
