@@ -1,0 +1,21 @@
+{
+  "name": "Gig Worker - Find Local Jobs & Workers",
+  "short_name": "Gig Worker",
+  "description": "Connect with local gig opportunities and skilled workers",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "productivity", "utilities"],
+  "lang": "en",
+  "scope": "/"
+}
