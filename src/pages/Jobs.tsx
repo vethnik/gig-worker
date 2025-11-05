@@ -53,6 +53,8 @@ const Jobs = () => {
     }
   }, [searchParams, setSearchParams]);
 
+  
+
   const fetchJobs = async () => {
     try {
       setLoading(true);
@@ -154,6 +156,8 @@ const Jobs = () => {
     return matchesCategory && matchesSearch && matchesLocation;
   });
 
+  
+
   const getTimeAgo = (timestamp: string) => {
     const now = new Date();
     const created = new Date(timestamp);
@@ -240,22 +244,7 @@ const Jobs = () => {
           </div>
         </div>
 
-        {/* Results Info */}
-        <div className="flex justify-between items-center mb-6">
-          <p className="text-muted-foreground">
-            {t('showing_jobs_in_area', { count: filteredJobs.length })}
-            {selectedCategory !== "all_jobs" && (
-              <span className="ml-2 text-primary">
-                {t('filtered_by', { category: t(selectedCategory) })}
-              </span>
-            )}
-          </p>
-          <select className="bg-background border border-border rounded-md px-3 py-2 text-sm">
-            <option>{t('most_recent')}</option>
-            <option>{t('highest_pay')}</option>
-            <option>{t('closest_distance')}</option>
-          </select>
-        </div>
+        {/* Results info removed per request */}
 
         {/* Job Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
